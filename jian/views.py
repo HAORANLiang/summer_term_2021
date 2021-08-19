@@ -18,3 +18,14 @@ def jian(request):
         'answer': answer
     }
     return JsonResponse(ret_data)
+
+
+def testdemo(request):
+    data = json.loads(request.body)
+    name = data.get("name")
+    age = int(data.get("age"))
+    ret_data = {
+        'name': name,
+        'age': age+1
+    }
+    return JsonResponse(ret_data, safe=False)

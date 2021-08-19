@@ -18,10 +18,13 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import path, include
 
+import jian.views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('multiply', include('mutiply.urls')),
     path('jian', include('jian.urls')),
     path('plus', include('plus.urls')),
-    path('division', include('divide.urls'))
+    path('division', include('divide.urls')),
+    path('testdemo', jian.views.testdemo)
 ]
