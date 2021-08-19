@@ -11,3 +11,4 @@ def division(request):
         'answer': answer
     }
     return JsonResponse(ret_data, safe=False)
+
