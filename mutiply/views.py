@@ -6,9 +6,9 @@ from django.http import JsonResponse
 import json
 # Create your views here.
 def mutiply(request):
-    data = json.loads(request.body)
-    first = data.get("first")
-    second = data.get("second")
+
+    first = request.GET.get("first")
+    second = request.GET.get("second")
     first = int(first)
     second = int(second)
     answer = first*second
