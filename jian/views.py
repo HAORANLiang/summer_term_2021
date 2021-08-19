@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.views import View
 from django.http import JsonResponse
 import json
+
+
 # Create your views here.
 def jian(request):
 
@@ -11,7 +13,7 @@ def jian(request):
     second = request.GET.get("second")
     first = int(first)
     second = int(second)
-    answer = first-second
+    answer = first - second
     ret_data = {
         'answer': answer
     }

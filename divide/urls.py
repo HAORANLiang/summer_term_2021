@@ -6,5 +6,5 @@ router = DefaultRouter()
 # router.register('books', views.BooksViewSet)
 
 urlpatterns = [
-    path('division/', views.division())
+    path('', views.division)
 ]
