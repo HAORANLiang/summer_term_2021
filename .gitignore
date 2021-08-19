@@ -39,3 +39,6 @@ venv
 *.njsproj
 *.sln
 *.sw?
+djangoProject/__pycache__
+**/**/*.pyc
+**/*.pyc
