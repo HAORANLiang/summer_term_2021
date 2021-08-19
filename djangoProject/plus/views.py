@@ -5,8 +5,8 @@ from django.http import JsonResponse
 
 def plus(request):
     data = json.loads(request.body)
-    first = data.get("first")
-    second = data.get("second")
+    first = float(data.get("first"))
+    second = float(data.get("second"))
     answer = first + second
     ret_data = {
         'answer': answer
