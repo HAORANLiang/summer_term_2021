@@ -4,9 +4,8 @@ from django.http import JsonResponse
 
 
 def division(request):
-    data = json.loads(request.body)
-    first = float(data.get("first"))
-    second = float(data.get("second"))
+    first = float(request.GET.get("first"))
+    second = float(request.GET.get("second"))
     answer = 1.0 * first / second
     ret_data = {
         'answer': answer
