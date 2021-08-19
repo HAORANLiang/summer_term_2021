@@ -1,11 +1,10 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from djangoProject.plus import views
-
+from divide import views
 
 router = DefaultRouter()
 # router.register('books', views.BooksViewSet)
 
 urlpatterns = [
-    path('plus/', views.plus())
+    path('division/', views.division())
 ]
