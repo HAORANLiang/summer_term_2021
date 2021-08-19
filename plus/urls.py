@@ -7,5 +7,5 @@ router = DefaultRouter()
 # router.register('books', views.BooksViewSet)
 
 urlpatterns = [
-    path('plus/', views.plus())
+    path('', views.plus)
 ]

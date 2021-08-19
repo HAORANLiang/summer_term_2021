@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('mutiply/', include('mutiply.urls')),
     path('jian/', include('jian.urls')),
+    path('plus/', include('plus.urls')),
+    path('division/', include('divide.urls'))
 ]
