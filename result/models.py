@@ -3,18 +3,12 @@ from django.db import models
 
 # Create your models here.
 class Single_ans(models.Model):
-    single_id = models.AutoField()
+    single_id = models.AutoField(primary_key=True)
     ans = models.IntegerField()
-
-    nec = models.BooleanField()
-    title = models.CharField(max_length=128, default="题干")
-    context_num = models.IntegerField()
-    correct_id = models.IntegerField(default=0)
-    context_1 = models.CharField(max_length=128, default="null")
 
 
 class Multi_ans(models.Model):
-    multi_id = models.AutoField()
+    multi_id = models.AutoField(primary_key=True)
     num = models.IntegerField()
     ans1 = models.IntegerField(blank=True, null=True)
     ans2 = models.IntegerField(blank=True, null=True)
@@ -27,7 +21,7 @@ class Multi_ans(models.Model):
 
 
 class Pack_ans(models.Model):
-    pack_id = models.AutoField()
+    pack_id = models.AutoField(primary_key=True)
     num = models.IntegerField()
     ans1 = models.CharField(max_length=255, blank=True, null=True)
     ans2 = models.CharField(max_length=255, blank=True, null=True)
@@ -37,18 +31,18 @@ class Pack_ans(models.Model):
 
 
 class Rate_ans(models.Model):
-    rate_id = models.AutoField()
+    rate_id = models.AutoField(primary_key=True)
     ans = models.IntegerField()
 
 
 class Result(models.Model):
-    result_id = models.AutoField()
+    result_id = models.AutoField(primary_key=True)
     list_id = models.IntegerField()
     user_id = models.IntegerField(blank=True, null=True)
 
 
 class Result_build(models.Model):
-    result_build_id = models.AutoField()
+    result_build_id = models.AutoField(primary_key=True)
     list_id = models.IntegerField()
     que_no = models.IntegerField()
     que_type = models.CharField(max_length=255)
