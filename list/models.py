@@ -15,3 +15,11 @@ class List(models.Model):
     que_num = models.IntegerField()
     summary = models.CharField(max_length=256)
     list_num = models.IntegerField()
+
+
+class Que_build(models.Model):
+    que_build_id = models.AutoField(primary_key=True)
+    list_id = models.IntegerField()
+    que_no = models.IntegerField()
+    que_type = models.CharField(max_length=16)
+    que_id = models.IntegerField()
