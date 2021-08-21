@@ -99,3 +99,28 @@ def add_rate(rate):
     new_rate.title = rate.get("title")
     new_rate.save()
     return new_rate.rate_id
+
+
+def recover(request):
+    data = json.loads(request.body)
+    owner_id = data.get("owner_id")
+    list_id = data.get("list_id")
+    list = List.objects.get(list_id=list_id)
+    list.state = "未发布"
+    list.save()
+    ret_data = {
+        "msg": "恢复成功"
+    }
+    return JsonResponse(ret_data)
+
+
+def tot_delete(request):
+    data = json.loads(request.body)
+    owner_id = data.get("owner_id")
+    list_id = data.get("list_id")
+    list = List.objects.get(list_id=list_id)
+    list.delete()
+    ret_data = {
+        "msg": "删除成功"
+    }
+    return JsonResponse(ret_data)
