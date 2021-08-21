@@ -7,7 +7,7 @@ class Single(models.Model):
     que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
-    correct_id = models.IntegerField()
+    correct_id = models.IntegerField(null=True)
     content_1 = models.CharField(max_length=128)
     content_2 = models.CharField(max_length=128)
     content_3 = models.CharField(max_length=128)
