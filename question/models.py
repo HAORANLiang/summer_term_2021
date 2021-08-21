@@ -4,6 +4,7 @@ from django.db import models
 
 class Single(models.Model):
     single_id = models.AutoField(primary_key=True)
+    que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
     context_num = models.IntegerField()
@@ -20,6 +21,7 @@ class Single(models.Model):
 
 class Multi(models.Model):
     multi_id = models.AutoField(primary_key=True)
+    que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
     context_num = models.IntegerField()
@@ -35,6 +37,7 @@ class Multi(models.Model):
 
 class Pack(models.Model):
     pack_id = models.AutoField(primary_key=True)
+    que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
     pack_num = models.IntegerField()
@@ -42,5 +45,6 @@ class Pack(models.Model):
 
 class Rate(models.Model):
     rate_id = models.AutoField(primary_key=True)
+    que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)

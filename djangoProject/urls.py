@@ -23,5 +23,6 @@ urlpatterns = [
     path('multiply/', include('mutiply.urls')),
     path('jian/', include('jian.urls')),
     path('plus/', include('plus.urls')),
-    path('division/', include('divide.urls'))
+    path('division/', include('divide.urls')),
+    path('list/', include('list.urls'))
 ]
