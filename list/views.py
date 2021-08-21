@@ -9,22 +9,22 @@ from question.models import *
 def add_list(request):
     data = json.loads(request.body)
     new_list = List()
-    new_list.state = data.get("state")
-    new_list.list_type = data.get("list_type")
+    new_list.state = ""
+    new_list.list_type = ""
     new_list.list_name = data.get("list_name")
     # new_list.full_time = data.get("full_time")
     # new_list.start_time = data.get("start_time")
     # new_list.end_time = data.get("end_time")
     # new_list.last_edit_time = data.get("last_edit_time")
-    new_list.full_time = datetime.datetime.now()##test
+    new_list.full_time = 0
     new_list.start_time = datetime.datetime.now()##test
     new_list.end_time = datetime.datetime.now()##test
     new_list.last_edit_time = datetime.datetime.now()##test
     new_list.owner_id = data.get("owner_id")
-    new_list.que_num = data.get("que_num")
     new_list.summary = data.get("summary")
     new_list.list_num = 0
     body = data.get("body")
+    new_list.que_num = len(body)
     new_list.save()
     for que in body:
         que_qualify(new_list.list_id, que)
