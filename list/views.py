@@ -53,9 +53,9 @@ def add_single(single):
     new_single = Single()
     new_single.nec = single.get("nec")
     new_single.title = single.get("title")
-    new_single.content_num = single.get("content_num")
-    new_single.correct_id = single.get("correct_id")
     contents = single.get("content")
+    new_single.content_num = len(contents)
+    new_single.correct_id = single.get("correct_id")
     if new_single.content_num > 0:
         new_single.content_1 = contents[0]
     if new_single.content_num > 1:
@@ -80,8 +80,8 @@ def add_multi(multi):
     new_multi = Multi()
     new_multi.nec = multi.get("nec")
     new_multi.title = multi.get("title")
-    new_multi.content_num = multi.get("content_num")
     contents = multi.get("content")
+    new_multi.content_num = len(contents)
     if new_multi.content_num > 0:
         new_multi.content_1 = contents[0]
     if new_multi.content_num > 1:
@@ -106,7 +106,7 @@ def add_pack(pack):
     new_pack = Pack()
     new_pack.nec = pack.get("nec")
     new_pack.title = pack.get("title")
-    new_pack.pack_num = pack.get("pack_num")
+    new_pack.pack_num = get_blank_num(new_pack.title)
     new_pack.save()
     return new_pack.pack_id
 
@@ -117,3 +117,16 @@ def add_rate(rate):
     new_rate.title = rate.get("title")
     new_rate.save()
     return new_rate.rate_id
+
+
+def get_blank_num(string):
+    pre = False
+    num = 0
+    for char in string:
+        if char == '_':
+            if not pre:
+                pre = True
+                num += 1
+        else:
+            pre = False
+    return num
