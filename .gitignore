@@ -42,3 +42,4 @@ venv
 djangoProject/__pycache__
 **/**/*.pyc
 **/*.pyc
+**/**/migrations/__pycache__
