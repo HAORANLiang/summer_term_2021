@@ -1,4 +1,3 @@
-
 from django.db import models
 
 
@@ -8,10 +7,10 @@ class List(models.Model):
     list_type = models.CharField(max_length=32)
     list_name = models.CharField(max_length=128)
     full_time = models.DateTimeField()
-    create_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    last_edit_time = models.DateTimeField()
+    last_edit_time = models.DateTimeField(auto_now=True, null=True)
     owner_id = models.IntegerField()
     que_num = models.IntegerField()
     summary = models.CharField(max_length=256)
