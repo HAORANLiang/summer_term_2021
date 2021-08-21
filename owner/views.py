@@ -1,8 +1,9 @@
-'''import json
+import json
 
 from django.db.models import Q
 from django.http import JsonResponse
 from list.models import *
+from django.core.paginator import Paginator
 from question.models import *
 
 
@@ -34,5 +35,10 @@ def get_list(request):
             'message': 'sortType error'
         }
         return JsonResponse(ret_data, safe=False)
-'''
+    num_one_page = 5
+    paginator = Paginator(list_menu, num_one_page)
+    current_page = request.GET.get("currentPage")
+    page_current = paginator.page(current_page)
+    ret_data = {
 
+    }
