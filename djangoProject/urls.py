@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('multiply/', include('mutiply.urls')),
-    path('jian/', include('jian.urls')),
-    path('plus/', include('plus.urls')),
-    path('division/', include('divide.urls')),
-    path('list/', include('list.urls'))
+    path('admin', admin.site.urls),
+    path('multiply', include('mutiply.urls')),
+    path('jian', include('jian.urls')),
+    path('plus', include('plus.urls')),
+    path('division', include('divide.urls')),
+    path('list', include('list.urls')),
+    path('owner', include('owner.urls'))
 ]
