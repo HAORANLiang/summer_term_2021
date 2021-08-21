@@ -16,4 +16,8 @@ def get_list(request):
             Q(list_name__contains=search_content) &
             Q(owner_id=owner_id)
         )
+    sortType = request.GET.get("sortType")
+    if sortType == 1:
+        list_menu.orderby("create_time")
+    if sortType == 2:
 

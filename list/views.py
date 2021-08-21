@@ -2,6 +2,8 @@ import datetime
 import json
 
 from django.http import JsonResponse
+from django.utils import timezone
+
 from list.models import *
 from question.models import *
 
@@ -9,7 +11,7 @@ from question.models import *
 def add_list(request):
     data = json.loads(request.body)
     new_list = List()
-    new_list.state = ""
+    new_list.state = "未发布"
     new_list.list_type = data.get("list_type")
     new_list.list_name = data.get("list_name")
     # new_list.full_time = data.get("full_time")
@@ -17,9 +19,10 @@ def add_list(request):
     # new_list.end_time = data.get("end_time")
     # new_list.last_edit_time = data.get("last_edit_time")
     new_list.full_time = 0
-    new_list.start_time = datetime.datetime.now()##test
-    new_list.end_time = datetime.datetime.now()##test
-    new_list.last_edit_time = datetime.datetime.now()##test
+    new_list.create_time = timezone.now()
+    new_list.start_time = timezone.now()
+    new_list.end_time = timezone.now()
+    new_list.last_edit_time = timezone.now()
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")
     new_list.list_num = 0
@@ -29,7 +32,7 @@ def add_list(request):
     for que in body:
         que_qualify(new_list.list_id, que)
     ret_data = {
-        "message": "Success"
+        "message": "submit success"
     }
     return JsonResponse(ret_data)
 
