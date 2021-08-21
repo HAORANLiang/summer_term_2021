@@ -27,7 +27,7 @@ def save_result(request):
         if finish == 1:
             if type == "single":
                 single_ans = Single_ans()
-                single_ans.ans = answer.get("content")
+                single_ans.ans = answer.get("content")[0]
                 single_ans.save()
                 result_build = Result_build()
                 result_build.list_id = result.result_id
