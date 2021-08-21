@@ -18,7 +18,9 @@ def save_result(request):
         result.user_id = data.get("user_id")
     result.save()
     answers = data.get("answer")
-    #list = List.objects.get(list_id=result.list_id)
+    list = List.objects.get(list_id=result.list_id)
+    list.list_num = list.list_num+1
+    list.save()
     for i in range(len(answers)):
         answer = answers[i]
         finish = answer.get("finish")
