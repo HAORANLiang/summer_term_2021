@@ -53,16 +53,25 @@ def add_single(single):
     new_single = Single()
     new_single.nec = single.get("nec")
     new_single.title = single.get("title")
-    new_single.context_num = single.get("context_num")
+    new_single.content_num = single.get("content_num")
     new_single.correct_id = single.get("correct_id")
-    new_single.context_1 = single.get("context_1")
-    new_single.context_2 = single.get("context_2")
-    new_single.context_3 = single.get("context_3")
-    new_single.context_4 = single.get("context_4")
-    new_single.context_5 = single.get("context_5")
-    new_single.context_6 = single.get("context_6")
-    new_single.context_7 = single.get("context_7")
-    new_single.context_8 = single.get("context_8")
+    contents = single.get("content")
+    if new_single.content_num > 0:
+        new_single.content_1 = contents[0]
+    if new_single.content_num > 1:
+        new_single.content_2 = contents[1]
+    if new_single.content_num > 2:
+        new_single.content_3 = contents[2]
+    if new_single.content_num > 3:
+        new_single.content_4 = contents[3]
+    if new_single.content_num > 4:
+        new_single.content_5 = contents[4]
+    if new_single.content_num > 5:
+        new_single.content_6 = contents[5]
+    if new_single.content_num > 6:
+        new_single.content_7 = contents[6]
+    if new_single.content_num > 7:
+        new_single.content_8 = contents[7]
     new_single.save()
     return new_single.single_id
 
@@ -71,15 +80,24 @@ def add_multi(multi):
     new_multi = Multi()
     new_multi.nec = multi.get("nec")
     new_multi.title = multi.get("title")
-    new_multi.context_num = multi.get("context_num")
-    new_multi.context_1 = multi.get("context_1")
-    new_multi.context_2 = multi.get("context_2")
-    new_multi.context_3 = multi.get("context_3")
-    new_multi.context_4 = multi.get("context_4")
-    new_multi.context_5 = multi.get("context_5")
-    new_multi.context_6 = multi.get("context_6")
-    new_multi.context_7 = multi.get("context_7")
-    new_multi.context_8 = multi.get("context_8")
+    new_multi.content_num = multi.get("content_num")
+    contents = multi.get("content")
+    if new_multi.content_num > 0:
+        new_multi.content_1 = contents[0]
+    if new_multi.content_num > 1:
+        new_multi.content_2 = contents[1]
+    if new_multi.content_num > 2:
+        new_multi.content_3 = contents[2]
+    if new_multi.content_num > 3:
+        new_multi.content_4 = contents[3]
+    if new_multi.content_num > 4:
+        new_multi.content_5 = contents[4]
+    if new_multi.content_num > 5:
+        new_multi.content_6 = contents[5]
+    if new_multi.content_num > 6:
+        new_multi.content_7 = contents[6]
+    if new_multi.content_num > 7:
+        new_multi.content_8 = contents[7]
     new_multi.save()
     return new_multi.multi_id
 
