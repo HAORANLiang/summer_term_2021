@@ -27,6 +27,6 @@ urlpatterns = [
     path('plus', include('plus.urls')),
     path('division', include('divide.urls')),
     path('testdemo', jian.views.testdemo),
-    path('list/', include('list.urls')),
+    path('list', include('list.urls')),
     path('result', include('result.urls'))
 ]
