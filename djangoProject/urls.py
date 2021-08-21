@@ -21,12 +21,9 @@ from django.urls import path, include
 import jian.views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('multiply', include('mutiply.urls')),
-    path('jian', include('jian.urls')),
-    path('plus', include('plus.urls')),
-    path('division', include('divide.urls')),
-    path('testdemo', jian.views.testdemo),
+    path('admin', admin.site.urls),
     path('list', include('list.urls')),
+    path('owner', include('owner.urls')),
+    path('testdemo', jian.views.testdemo),
     path('result', include('result.urls'))
 ]
