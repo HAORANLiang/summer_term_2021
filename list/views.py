@@ -26,7 +26,6 @@ def add_list(request):
     new_list.list_num = 0
     body = data.get("body")
     new_list.save()
-    print(new_list.list_id)##
     for que in body:
         que_qualify(new_list.list_id, que)
     ret_data = {
@@ -35,19 +34,18 @@ def add_list(request):
     return JsonResponse(ret_data)
 
 
-def que_type_switch(que_type, que):
-    case = {
-        "single": add_single(que)
-    }
-    return case.get(que_type, None)
-
-
 def que_qualify(list_id, que):
     new_que_build = Que_build()
     new_que_build.list_id = list_id
     new_que_build.que_no = que.get("no")
     new_que_build.que_type = que.get("type")
-    new_que_build.que_id = que_type_switch(new_que_build.que_type, que)
+    case = {
+        "single": add_single,
+        "multi": add_multi,
+        "pack": add_pack,
+        "rate": add_rate
+    }
+    new_que_build.que_id = case.get(new_que_build.que_type)(que)
     new_que_build.save()
 
 
@@ -58,7 +56,6 @@ def add_single(single):
     new_single.context_num = single.get("context_num")
     new_single.correct_id = single.get("correct_id")
     new_single.context_1 = single.get("context_1")
-    print(new_single.context_1)##
     new_single.context_2 = single.get("context_2")
     new_single.context_3 = single.get("context_3")
     new_single.context_4 = single.get("context_4")
@@ -68,3 +65,37 @@ def add_single(single):
     new_single.context_8 = single.get("context_8")
     new_single.save()
     return new_single.single_id
+
+
+def add_multi(multi):
+    new_multi = Multi()
+    new_multi.nec = multi.get("nec")
+    new_multi.title = multi.get("title")
+    new_multi.context_num = multi.get("context_num")
+    new_multi.context_1 = multi.get("context_1")
+    new_multi.context_2 = multi.get("context_2")
+    new_multi.context_3 = multi.get("context_3")
+    new_multi.context_4 = multi.get("context_4")
+    new_multi.context_5 = multi.get("context_5")
+    new_multi.context_6 = multi.get("context_6")
+    new_multi.context_7 = multi.get("context_7")
+    new_multi.context_8 = multi.get("context_8")
+    new_multi.save()
+    return new_multi.multi_id
+
+
+def add_pack(pack):
+    new_pack = Pack()
+    new_pack.nec = pack.get("nec")
+    new_pack.title = pack.get("title")
+    new_pack.pack_num = pack.get("pack_num")
+    new_pack.save()
+    return new_pack.pack_id
+
+
+def add_rate(rate):
+    new_rate = Rate()
+    new_rate.nec = rate.get("nec")
+    new_rate.title = rate.get("title")
+    new_rate.save()
+    return new_rate.rate_id
