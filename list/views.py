@@ -155,3 +155,103 @@ def tot_delete(request):
         "msg": "删除成功"
     }
     return JsonResponse(ret_data)
+
+
+def quest(request):
+    id = request.GET.get("id")
+    list = List.objects.filter(list_id=id)
+    if not list.exists():
+        ret_data = {
+            "msg": "问卷不存在"
+        }
+        return JsonResponse(ret_data)
+    list = List.objects.get(list_id=id)
+    body = []
+    index = Que_build.objects.filter(list_id=id).order_by('que_no')
+    for tmp in index:
+        type = tmp.que_type
+        id = tmp.que_id
+        if type == "single":
+            question = Single.objects.get(single_id=id)
+            content = []
+            if question.content_1 != "":
+                content += question.content_1
+            if question.content_2 != "":
+                content += question.content_2
+            if question.content_3 != "":
+                content += question.content_3
+            if question.content_4 != "":
+                content += question.content_4
+            if question.content_5 != "":
+                content += question.content_5
+            if question.content_6 != "":
+                content += question.content_6
+            if question.content_7 != "":
+                content += question.content_7
+            if question.content_8 != "":
+                content += question.content_8
+            group = {
+                "no": tmp.que_no,
+                "type": tmp.que_type,
+                "title": question.title,
+                "nec": question.nec,
+                "content": content
+            }
+            body.append(group)
+        if type == "multi":
+            question = Multi.objects.get(multi_id=id)
+            content = []
+            if question.content_1 != "":
+                content += question.content_1
+            if question.content_2 != "":
+                content += question.content_2
+            if question.content_3 != "":
+                content += question.content_3
+            if question.content_4 != "":
+                content += question.content_4
+            if question.content_5 != "":
+                content += question.content_5
+            if question.content_6 != "":
+                content += question.content_6
+            if question.content_7 != "":
+                content += question.content_7
+            if question.content_8 != "":
+                content += question.content_8
+            group = {
+                "no": tmp.que_no,
+                "type": tmp.que_type,
+                "title": question.title,
+                "nec": question.nec,
+                "content": content
+            }
+            body.append(group)
+        if type == "pack":
+            question = Pack.objects.get(pack_id=id)
+
+            group = {
+                "no": tmp.que_no,
+                "type": tmp.que_type,
+                "title": question.title,
+                "nec": question.nec,
+
+            }
+            body.append(group)
+        if type == "rate":
+            question = Rate.objects.get(rate_id=id)
+
+            group = {
+                "no": tmp.que_no,
+                "type": tmp.que_type,
+                "title": question.title,
+                "nec": question.nec,
+
+            }
+            body.append(group)
+    ret_data = {
+        "list_name": list.list_name,
+        "type": list.list_type,
+        "owner_id": list.owner_id,
+        "summary": list.summary,
+        "body": body
+    }
+    return JsonResponse(ret_data)
