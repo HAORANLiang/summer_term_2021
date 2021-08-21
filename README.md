@@ -1,3 +1,5 @@
+安装模块后请此处写明
+
 ### 1. venv环境
 
     引入的模块：
@@ -9,3 +11,4 @@
     5. pytz v2021.1
     6. setuptools   v57.4.0
     7. sqlparse v0.4.1
+    8. djangorestframework 3.12.4

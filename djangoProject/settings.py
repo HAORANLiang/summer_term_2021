@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'question',
     'owner',
     'mutiply',
+    'divide',
+    'plus',
+    'jian',
+    'result',
+
 ]
 
 MIDDLEWARE = [
