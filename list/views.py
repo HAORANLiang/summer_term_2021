@@ -10,7 +10,7 @@ def add_list(request):
     data = json.loads(request.body)
     new_list = List()
     new_list.state = ""
-    new_list.list_type = ""
+    new_list.list_type = data.get("list_type")
     new_list.list_name = data.get("list_name")
     # new_list.full_time = data.get("full_time")
     # new_list.start_time = data.get("start_time")
