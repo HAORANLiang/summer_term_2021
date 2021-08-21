@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'plus',
     'jian',
     'result',
-    'question'
+
 ]
 
 MIDDLEWARE = [
