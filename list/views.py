@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from django.http import JsonResponse
 
@@ -18,6 +19,8 @@ def add_list(request):
     new_list.list_name = data.get("list_name")
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")
+    new_list.only_once = True
+    new_list.need_login = True
     new_list.list_num = 0
     body = data.get("body")
     new_list.que_num = len(body)
@@ -49,6 +52,7 @@ def add_single(single):
     new_single = Single()
     new_single.nec = single.get("nec")
     new_single.title = single.get("title")
+    new_single.description = single.get("description")
     contents = single.get("content")
     new_single.content_num = len(contents)
     new_single.correct_id = single.get("correct_id")
@@ -76,6 +80,7 @@ def add_multi(multi):
     new_multi = Multi()
     new_multi.nec = multi.get("nec")
     new_multi.title = multi.get("title")
+    new_multi.description = multi.get("description")
     contents = multi.get("content")
     new_multi.content_num = len(contents)
     if new_multi.content_num > 0:
@@ -102,6 +107,7 @@ def add_pack(pack):
     new_pack = Pack()
     new_pack.nec = pack.get("nec")
     new_pack.title = pack.get("title")
+    new_pack.description = pack.get("description")
     new_pack.pack_num = get_blank_num(new_pack.title)
     new_pack.save()
     return new_pack.pack_id
@@ -111,6 +117,7 @@ def add_rate(rate):
     new_rate = Rate()
     new_rate.nec = rate.get("nec")
     new_rate.title = rate.get("title")
+    new_rate.description = rate.get("description")
     new_rate.save()
     return new_rate.rate_id
 
@@ -270,6 +277,19 @@ def set_publish(request):
 
 def set_publish_info(request):
     list_id = int(request.GET.get("id"))
-    need_login = int(request.GET.get("id"))
-    only_once = int(request.GET.get("id"))
-
+    print(list_id)
+    need_login = int(request.GET.get("need_login"))
+    only_once = int(request.GET.get("only_once"))
+    start_time = datetime.datetime.strptime(request.GET.get("start_time"), '%Y-%m-%dT%H:%M')
+    deadline = datetime.datetime.strptime(request.GET.get("deadline"), '%Y-%m-%dT%H:%M')
+    list_changed = List.objects.get(list_id=list_id)
+    list_changed.need_login = (need_login == 1)
+    list_changed.only_once = (only_once == 1)
+    list_changed.start_time = start_time
+    list_changed.end_time = deadline
+    # list_changed.full_time = deadline - start_time
+    list_changed.save()
+    ret_data = {
+        "result": True
+    }
+    return JsonResponse(ret_data)
