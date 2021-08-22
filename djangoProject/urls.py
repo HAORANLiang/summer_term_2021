@@ -30,5 +30,6 @@ urlpatterns = [
     path('recycle/recover/', list.views.recover),
     path('recycle/delete/', list.views.tot_delete),
     path('login', owner.views.login),
-    path('register', owner.views.register)
+    path('register', owner.views.register),
+    path('change_pass', owner.views.change_pass)
 ]

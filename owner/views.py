@@ -89,3 +89,16 @@ def login(request):
         "message": "用户名或密码错误"
     }
     return JsonResponse(ret_data)
+
+
+def change_pass(request):
+    data = json.loads(request.body)
+    username = data.get("username")
+    password = data.get("password")
+    user = User.objects.get(username=username)
+    user.password = password
+    user.save()
+    ret_data = {
+        "message": "密码修改成功"
+    }
+    return JsonResponse(ret_data)
