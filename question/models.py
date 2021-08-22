@@ -1,4 +1,3 @@
-
 from django.db import models
 
 
@@ -7,6 +6,7 @@ class Single(models.Model):
     que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
+    description = models.CharField(max_length=128, null=True)
     correct_id = models.IntegerField(null=True)
     content_1 = models.CharField(max_length=128)
     content_2 = models.CharField(max_length=128)
@@ -23,6 +23,7 @@ class Multi(models.Model):
     que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
+    description = models.CharField(max_length=128, null=True)
     content_1 = models.CharField(max_length=128)
     content_2 = models.CharField(max_length=128)
     content_3 = models.CharField(max_length=128)
@@ -38,6 +39,7 @@ class Pack(models.Model):
     que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
+    description = models.CharField(max_length=128, null=True)
     pack_num = models.IntegerField()
 
 
@@ -46,3 +48,4 @@ class Rate(models.Model):
     que_type = models.CharField(max_length=32)
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
+    description = models.CharField(max_length=128, null=True)
