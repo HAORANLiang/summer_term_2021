@@ -3,6 +3,7 @@ import json
 from django.db.models import Q
 from django.http import JsonResponse
 from list.models import *
+from owner.models import *
 from list.serializer import ListSerializer
 from django.core.paginator import Paginator
 from question.models import *
@@ -50,5 +51,41 @@ def get_list(request):
     ret_data = {
         "totalPage": total_page,
         "list": page_needed.data
+    }
+    return JsonResponse(ret_data)
+
+
+def register(request):
+    data = json.loads(request.body)
+    username = data.get("username")
+    tmp = User.objects.filter(name=username)
+    if tmp.exists():
+        ret_data = {
+            "message": "用户名已存在"
+        }
+        return JsonResponse(ret_data)
+    user = User()
+    user.name = data.get("username")
+    user.password = data.get("password")
+    user.save()
+    ret_data = {
+        "message": "注册成功"
+    }
+    return JsonResponse(ret_data)
+
+
+def login(request):
+    username = request.GET.get("username")
+    password = request.GET.get("password")
+    tmp = User.objects.filter(name=username)
+    if tmp.exists():
+        tmp = User.objects.get(name=username)
+        if tmp.password == password:
+            ret_data = {
+                "user_id": tmp.user_id
+            }
+            return JsonResponse(ret_data)
+    ret_data = {
+        "message": "用户名或密码错误"
     }
     return JsonResponse(ret_data)

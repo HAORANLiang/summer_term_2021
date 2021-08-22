@@ -18,6 +18,7 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import path, include
 import list.views
+import owner.views
 import jian.views
 
 urlpatterns = [
@@ -27,5 +28,7 @@ urlpatterns = [
     path('testdemo', jian.views.testdemo),
     path('result', include('result.urls')),
     path('recycle/recover', list.views.recover),
-    path('recycle/delete', list.views.tot_delete)
+    path('recycle/delete', list.views.tot_delete),
+    path('login', owner.views.login),
+    path('register', owner.views.register)
 ]
