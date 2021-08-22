@@ -172,21 +172,21 @@ def quest(request):
             question = Single.objects.get(single_id=id)
             content = []
             if question.content_1 != "":
-                content += question.content_1
+                content.append(question.content_1)
             if question.content_2 != "":
-                content += question.content_2
+                content.append(question.content_2)
             if question.content_3 != "":
-                content += question.content_3
+                content.append(question.content_3)
             if question.content_4 != "":
-                content += question.content_4
+                content.append(question.content_4)
             if question.content_5 != "":
-                content += question.content_5
+                content.append(question.content_5)
             if question.content_6 != "":
-                content += question.content_6
+                content.append(question.content_6)
             if question.content_7 != "":
-                content += question.content_7
+                content.append(question.content_7)
             if question.content_8 != "":
-                content += question.content_8
+                content.append(question.content_8)
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
@@ -199,21 +199,21 @@ def quest(request):
             question = Multi.objects.get(multi_id=id)
             content = []
             if question.content_1 != "":
-                content += question.content_1
+                content.append(question.content_1)
             if question.content_2 != "":
-                content += question.content_2
+                content.append(question.content_2)
             if question.content_3 != "":
-                content += question.content_3
+                content.append(question.content_3)
             if question.content_4 != "":
-                content += question.content_4
+                content.append(question.content_4)
             if question.content_5 != "":
-                content += question.content_5
+                content.append(question.content_5)
             if question.content_6 != "":
-                content += question.content_6
+                content.append(question.content_6)
             if question.content_7 != "":
-                content += question.content_7
+                content.append(question.content_7)
             if question.content_8 != "":
-                content += question.content_8
+                content.append(question.content_8)
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
