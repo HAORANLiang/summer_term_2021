@@ -1,8 +1,6 @@
-import datetime
 import json
 
 from django.http import JsonResponse
-from django.utils import timezone
 
 from list.models import *
 from question.models import *
@@ -11,12 +9,13 @@ from question.models import *
 def add_list(request):
     data = json.loads(request.body)
     new_list = List()
-    new_list.state = "未发布"
+    list_id = data.get("list_id")
+    if not list_id == -1:
+        new_list = List.objects.get(list_id=list_id)
+    else:
+        new_list.state = "未发布"
     new_list.list_type = data.get("type")
     new_list.list_name = data.get("list_name")
-    new_list.start_time = timezone.now()
-    new_list.end_time = timezone.now()
-    new_list.full_time = timezone.now()
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")
     new_list.list_num = 0
@@ -254,12 +253,6 @@ def quest(request):
     return JsonResponse(ret_data)
 
 
-def set_deadline(request):  # unfinished
-    list_id = request.GET.get("id")
-    deadline = request.GET.get("deadline")
-    List.objects.filter(list_id=list_id).update(end_time=deadline)
-
-
 def set_publish(request):
     list_id = int(request.GET.get("id"))
     publish = int(request.GET.get("publish"))
@@ -273,3 +266,10 @@ def set_publish(request):
         "result": True
     }
     return JsonResponse(ret_data)
+
+
+def set_publish_info(request):
+    list_id = int(request.GET.get("id"))
+    need_login = int(request.GET.get("id"))
+    only_once = int(request.GET.get("id"))
+

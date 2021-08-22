@@ -13,7 +13,6 @@ def get_list(request):
     search_content = request.GET.get("searchContent")
     owner_id = int(request.GET.get("owner_id"))
     sortType = int(request.GET.get("sortType"))
-    print(type(sortType))
     if sortType == 0:
         list_menu = List.objects.filter(owner_id=owner_id)
         all_set = ListSerializer(list_menu, many=True)
@@ -26,7 +25,6 @@ def get_list(request):
             Q(owner_id=owner_id)
         )
     if sortType == 1:
-        print("this way")
         list_menu = list_menu.order_by('-start_time')
     elif sortType == 2:
         list_menu = list_menu.order_by('start_time')
