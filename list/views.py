@@ -26,7 +26,7 @@ def add_list(request):
     for que in body:
         que_qualify(new_list.list_id, que)
     ret_data = {
-        "message": "submit success"
+        "list_id": new_list.list_id
     }
     return JsonResponse(ret_data)
 
