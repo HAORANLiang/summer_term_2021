@@ -9,7 +9,7 @@ from question.models import *
 def add_list(request):
     data = json.loads(request.body)
     new_list = List()
-    list_id = data.get("list_id")
+    list_id = data.get("id")
     if not list_id == -1:
         new_list = List.objects.get(list_id=list_id)
     else:
