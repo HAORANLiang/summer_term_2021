@@ -7,6 +7,7 @@ class Single_ans(models.Model):
     ans = models.IntegerField()
 
 
+
 class Multi_ans(models.Model):
     multi_id = models.AutoField(primary_key=True)
     num = models.IntegerField()
@@ -20,6 +21,7 @@ class Multi_ans(models.Model):
     ans8 = models.IntegerField(blank=True, null=True)
 
 
+
 class Pack_ans(models.Model):
     pack_id = models.AutoField(primary_key=True)
     num = models.IntegerField()
@@ -30,9 +32,11 @@ class Pack_ans(models.Model):
     ans5 = models.CharField(max_length=255, blank=True, null=True)
 
 
+
 class Rate_ans(models.Model):
     rate_id = models.AutoField(primary_key=True)
     ans = models.IntegerField()
+
 
 
 class Result(models.Model):
@@ -47,3 +51,4 @@ class Result_build(models.Model):
     que_no = models.IntegerField()
     que_type = models.CharField(max_length=255)
     que_id = models.IntegerField()
+    result_id = models.IntegerField()

@@ -29,16 +29,19 @@ def save_result(request):
         if finish == 1:
             if type == "single":
                 single_ans = Single_ans()
+
                 single_ans.ans = answer.get("content")[0]
                 single_ans.save()
                 result_build = Result_build()
-                result_build.list_id = result.result_id
+                result_build.list_id = result.list_id
+                result_build.result_id = result.result_id
                 result_build.que_no = i+1
                 result_build.que_type = type
                 result_build.que_id = single_ans.single_id
                 result_build.save()
             if type == "multi":
                 multi_ans = Multi_ans()
+
                 ans = answer.get("content")
                 multi_ans.num =len(ans)
                 if multi_ans.num>7:
@@ -60,13 +63,15 @@ def save_result(request):
 
                 multi_ans.save()
                 result_build = Result_build()
-                result_build.list_id = result.result_id
+                result_build.list_id = result.list_id
+                result_build.result_id = result.result_id
                 result_build.que_no = i+1
                 result_build.que_type = type
                 result_build.que_id = multi_ans.multi_id
                 result_build.save()
             if type == "pack":
                 pack_ans = Pack_ans()
+
                 ans = answer.get("content")
                 pack_ans.num = len(ans)
 
@@ -83,17 +88,20 @@ def save_result(request):
 
                 pack_ans.save()
                 result_build = Result_build()
-                result_build.list_id = result.result_id
+                result_build.list_id = result.list_id
+                result_build.result_id = result.result_id
                 result_build.que_no = i+1
                 result_build.que_type = type
                 result_build.que_id = pack_ans.pack_id
                 result_build.save()
             if type == "rate":
                 rate_ans = Rate_ans()
+
                 rate_ans.ans = answer.get("content")
                 rate_ans.save()
                 result_build = Result_build()
-                result_build.list_id = result.result_id
+                result_build.list_id = result.list_id
+                result_build.result_id = result.result_id
                 result_build.que_no = i+1
                 result_build.que_type = type
                 result_build.que_id = rate_ans.rate_id
@@ -102,3 +110,165 @@ def save_result(request):
         'message': "submit success"
     }
     return JsonResponse(ret_data, safe=False)
+
+
+def statistic(request):
+    list_id = request.GET.get("id")
+    list = List.objects.get(list_id=list_id)
+    results = Result.objects.filter(list_id=list_id)
+    results_num = Result.objects.filter(list_id=list_id).count()
+    que = []
+    builds = Que_build.objects.filter(list_id=list_id).order_by('que_no')
+    for build in builds:
+        que_id = build.que_id
+        type = build.que_type
+        res_builds = Result_build.objects.filter(list_id=list_id, que_no=build.que_no)
+        num = Result_build.objects.filter(list_id=list_id, que_no=build.que_no).count()
+        if type == "single":
+            question = Single.objects.get(single_id=que_id)
+            rate = {}
+            x=[0,0,0,0,0,0,0,0]
+            for res_build in res_builds:
+                result_id = res_build.que_id
+                result = Single_ans.objects.get(single_id=result_id)
+                for i in range(8):
+                    if result.ans == i:
+                        x[i] += 1
+
+            if question.content_1 != "":
+                tmp = {"1": 0 if (x[0]==0) else float(x[0])/num*100}
+                rate.update(tmp)
+            if question.content_2 != "":
+                tmp = {"2": 0 if (x[1]==0) else float(x[1])/num*100}
+                rate.update(tmp)
+            if question.content_3 != "":
+                tmp = {"3": 0 if (x[2]==0) else float(x[2])/num*100}
+                rate.update(tmp)
+            if question.content_4 != "":
+                tmp = {"4": 0 if (x[3]==0) else float(x[3])/num*100}
+                rate.update(tmp)
+            if question.content_5 != "":
+                tmp = {"5": 0 if (x[4]==0) else float(x[4])/num*100}
+                rate.update(tmp)
+            if question.content_6 != "":
+                tmp = {"6": 0 if (x[5]==0) else float(x[5])/num*100}
+                rate.update(tmp)
+            if question.content_7 != "":
+                tmp = {"7": 0 if (x[6]==0) else float(x[6])/num*100}
+                rate.update(tmp)
+            if question.content_8 != "":
+                tmp = {"8": 0 if (x[7]==0) else float(x[7])/num*100}
+                rate.update(tmp)
+            tmp_que = {
+                'no': build.que_no,
+                'title': question.title,
+                'type': question.que_type,
+                'all': num,
+                'all_rate': 0 if (num==0) else float(num)/results_num*100,
+                'rate': rate
+            }
+            que.append(tmp_que)
+        if type == "multi":
+            question = Multi.objects.get(multi_id=que_id)
+            rate = {}
+            x = [0, 0, 0, 0, 0, 0, 0, 0]
+            for res_build in res_builds:
+                result_id = res_build.que_id
+                result = Multi_ans.objects.get(multi_id=result_id)
+                for i in range(8):
+                    if result.ans1 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans2 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans3 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans4 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans5 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans6 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans7 == i:
+                        x[i] += 1
+                for i in range(8):
+                    if result.ans8 == i:
+                        x[i] += 1
+            if question.content_1 != "":
+                tmp = {"1": 0 if (x[0] == 0) else float(x[0]) / num * 100}
+                rate.update(tmp)
+            if question.content_2 != "":
+                tmp = {"2": 0 if (x[1] == 0) else float(x[1]) / num * 100}
+                rate.update(tmp)
+            if question.content_3 != "":
+                tmp = {"3": 0 if (x[2] == 0) else float(x[2]) / num * 100}
+                rate.update(tmp)
+            if question.content_4 != "":
+                tmp = {"4": 0 if (x[3] == 0) else float(x[3]) / num * 100}
+                rate.update(tmp)
+            if question.content_5 != "":
+                tmp = {"5": 0 if (x[4] == 0) else float(x[4]) / num * 100}
+                rate.update(tmp)
+            if question.content_6 != "":
+                tmp = {"6": 0 if (x[5] == 0) else float(x[5]) / num * 100}
+                rate.update(tmp)
+            if question.content_7 != "":
+                tmp = {"7": 0 if (x[6] == 0) else float(x[6]) / num * 100}
+                rate.update(tmp)
+            if question.content_8 != "":
+                tmp = {"8": 0 if (x[7] == 0) else float(x[7]) / num * 100}
+                rate.update(tmp)
+            tmp_que = {
+                'no': build.que_no,
+                'title': question.title,
+                'type': question.que_type,
+                'all': num,
+                'all_rate': 0 if (num == 0) else float(num) / results_num * 100,
+                'rate': rate
+            }
+            que.append(tmp_que)
+        if type == "rate":
+            question = Rate.objects.get(rate_id=que_id)
+            rate = {}
+            x=[0,0,0,0,0,0,0,0,0,0,0]
+            for res_build in res_builds:
+                result_id = res_build.que_id
+                result = Rate_ans.objects.get(rate_id=result_id)
+                for i in range(11):
+                    if result.ans == i:
+                        x[i] += 1
+            for i in range(10):
+                tmp = {str(i+1): 0 if (x[i+1]==0) else float(x[i+1])/num*100}
+                rate.update(tmp)
+            tmp_que = {
+                'no': build.que_no,
+                'title': question.title,
+                'type': question.que_type,
+                'all': num,
+                'all_rate': 0 if (num==0) else float(num)/results_num*100,
+                'rate': rate
+            }
+            que.append(tmp_que)
+        if type == "pack":
+            question = Pack.objects.get(pack_id=que_id)
+
+            tmp_que = {
+                'no': build.que_no,
+                'title': question.title,
+                'type': question.que_type,
+                'all': num,
+                'all_rate': 0 if (num==0) else float(num)/results_num*100,
+
+            }
+            que.append(tmp_que)
+    ret_data = {
+        "name": list.list_name,
+        "id": list.list_id,
+        "que": que
+    }
+    return JsonResponse(ret_data)
