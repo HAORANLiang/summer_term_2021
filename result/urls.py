@@ -5,7 +5,7 @@ from result import views
 
 
 urlpatterns = [
-    path('/save_result', views.save_result),
+    path('save_result', views.save_result),
 
 ]
 

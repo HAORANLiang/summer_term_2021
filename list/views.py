@@ -252,3 +252,24 @@ def quest(request):
         "body": body
     }
     return JsonResponse(ret_data)
+
+
+def set_deadline(request):  # unfinished
+    list_id = request.GET.get("id")
+    deadline = request.GET.get("deadline")
+    List.objects.filter(list_id=list_id).update(end_time=deadline)
+
+
+def set_publish(request):
+    list_id = int(request.GET.get("id"))
+    publish = int(request.GET.get("publish"))
+    print(publish, type(publish))
+    if publish:
+        state = "已发布"
+    else:
+        state = "未发布"
+    List.objects.filter(list_id=list_id).update(state=state)
+    ret_data = {
+        "result": True
+    }
+    return JsonResponse(ret_data)
