@@ -1,3 +1,4 @@
+import copy
 import json
 
 from django.db.models import Q
@@ -5,6 +6,7 @@ from django.http import JsonResponse
 from list.models import *
 from owner.models import *
 from list.serializer import ListSerializer
+from list.views import *
 from django.core.paginator import Paginator
 from question.models import *
 
@@ -129,3 +131,78 @@ def get_recycle_list(request):
         "list": list_json.data
     }
     return JsonResponse(ret_data)
+
+
+def copy_list(request):
+    data = json.load(request)
+    owner_id = int(data.get("owner_id"))
+    list_id = int(data.get("list_id"))
+    list_source = List.objects.get(list_id=list_id)
+    if owner_id != list_source.owner_id:
+        ret_data = {
+            "message": "复制失败"
+        }
+        return JsonResponse(ret_data)
+    new_list = List()
+    new_list.list_name = list_source.list_name
+    new_list.list_type = list_source.list_type
+    new_list.summary = list_source.summary
+    new_list.owner_id = owner_id
+    new_list.state = "未发布"
+    new_list.que_num = list_source.que_num
+    new_list.list_num = 0
+    new_list.save()
+    que_build_list = Que_build.objects.filter(list_id=list_id)
+    for que_build_each in que_build_list:
+        new_que_build = Que_build()
+        new_que_build.que_type = que_build_each.que_type
+        new_que_build.que_no = que_build_each.que_no
+        new_que_build.list_id = new_list.list_id
+        new_que_build.que_id = copy_switch(new_que_build.que_type, que_build_each.que_id)
+        new_que_build.save()
+    ret_data = {
+        "message": "复制成功"
+    }
+    return JsonResponse(ret_data)
+
+
+def copy_switch(que_type, que_id):
+    case = {
+        "single": copy_single,
+        "multi": copy_multi,
+        "pack": copy_pack,
+        "rate": copy_rate
+    }
+    return case.get(que_type)(que_id)
+
+
+def copy_single(single_id):
+    old_single = Single.objects.get(single_id=single_id)
+    new_single = copy.deepcopy(old_single)
+    new_single.pk = None
+    new_single.save()
+    return new_single.single_id
+
+
+def copy_multi(multi_id):
+    old_multi = Multi.objects.get(multi_id=multi_id)
+    new_multi = copy.deepcopy(old_multi)
+    new_multi.pk = None
+    new_multi.save()
+    return new_multi.multi_id
+
+
+def copy_pack(pack_id):
+    old_pack = Pack.objects.get(pack_id=pack_id)
+    new_pack = copy.deepcopy(old_pack)
+    new_pack.pk = None
+    new_pack.save()
+    return new_pack.pack_id
+
+
+def copy_rate(rate_id):
+    old_rate = Rate.objects.get(rate_id=rate_id)
+    new_rate = copy.deepcopy(old_rate)
+    new_rate.pk = None
+    new_rate.save()
+    return new_rate.rate_id
