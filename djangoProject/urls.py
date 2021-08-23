@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('list/', include('list.urls')),
     path('manageList/', include('owner.urls')),
+    path('owner/', include('owner.urls')),
     path('testdemo/', jian.views.testdemo),
     path('result/', include('result.urls')),
     path('recycle/recover/', list.views.recover),
