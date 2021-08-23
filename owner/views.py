@@ -115,3 +115,17 @@ def to_recycle(request):
         "message": "问卷已删除，可在回收站中恢复或彻底删除"
     }
     return JsonResponse(ret_data)
+
+
+def get_recycle_list(request):
+    data = json.load(request)
+    owner_id = int(data.get("usrID"))
+    recycle_list = List.objects.filter(
+        Q(owner_id=owner_id) &
+        Q(state="已删除")
+    )
+    list_json = ListSerializer(recycle_list, many=True)
+    ret_data = {
+        "list": list_json.data
+    }
+    return JsonResponse(ret_data)
