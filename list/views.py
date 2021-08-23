@@ -348,6 +348,21 @@ def set_publish(request):
     return JsonResponse(ret_data)
 
 
+def get_publish(request):
+    list_id = int(request.GET.get("id"))
+    list_searched = List.objects.get(list_id=list_id)
+    if list_searched.state == "已发布":
+        state = 1
+    elif list_searched.state == "未发布":
+        state = 0
+    else:
+        state = 2
+    ret_data = {
+        "publish": state
+    }
+    return JsonResponse(ret_data)
+
+
 def set_publish_info(request):
     list_id = int(request.GET.get("id"))
     need_login = int(request.GET.get("need_login"))
