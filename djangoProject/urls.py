@@ -28,8 +28,8 @@ urlpatterns = [
     path('owner/', include('owner.urls')),
     path('testdemo/', jian.views.testdemo),
     path('result/', include('result.urls')),
-    path('recycle/recover/', list.views.recover),
-    path('recycle/delete/', list.views.tot_delete),
+    path('recycle/recover', list.views.recover),
+    path('recycle/delete', list.views.tot_delete),
     path('login', owner.views.login),
     path('register', owner.views.register),
     path('change_pass', owner.views.change_pass)
