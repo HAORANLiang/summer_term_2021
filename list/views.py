@@ -355,7 +355,7 @@ def get_publish(request):
     ret_data = {
         "publish": state
     }
-    JsonResponse(ret_data)
+    return JsonResponse(ret_data)
 
 
 def set_publish_info(request):
