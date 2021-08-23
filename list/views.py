@@ -206,6 +206,13 @@ def quest(request):
         }
         return JsonResponse(ret_data)
     list = List.objects.get(list_id=id)
+    if list.state != "已发布":
+        user_id = request.headers.get("Authorization")
+        if user_id != list.owner_id:
+            ret_data = {
+                "msg": "无权限访问"
+            }
+            return JsonResponse(ret_data)
     body = []
     index = Que_build.objects.filter(list_id=id).order_by('que_no')
     for tmp in index:
