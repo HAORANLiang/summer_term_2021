@@ -8,5 +8,5 @@ urlpatterns = [
     path('verify_quest', views.verity_quest),
     path('set_publish', views.set_publish),
     path('set_publish_info', views.set_publish_info),
-    path('get_publish', views.get_publish)
+    path('get_publish_info', views.get_publish)
 ]
