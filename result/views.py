@@ -162,7 +162,7 @@ def statistic(request):
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
-                'type': question.que_type,
+                'type': type,
                 'all': num,
                 'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
                 'rate': rate
@@ -226,7 +226,7 @@ def statistic(request):
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
-                'type': question.que_type,
+                'type': type,
                 'all': num,
                 'all_rate': 0 if (num == 0) else int(float(num) / results_num * 100),
                 'rate': rate
@@ -248,7 +248,7 @@ def statistic(request):
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
-                'type': question.que_type,
+                'type': type,
                 'all': num,
                 'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
                 'rate': rate
@@ -260,7 +260,7 @@ def statistic(request):
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
-                'type': question.que_type,
+                'type': type,
                 'all': num,
                 'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
 
