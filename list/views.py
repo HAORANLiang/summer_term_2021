@@ -197,6 +197,7 @@ def quest(request):
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
+                "description":question.description,
                 "nec": question.nec,
                 "content": content
             }
@@ -224,6 +225,7 @@ def quest(request):
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
+                "description": question.description,
                 "nec": question.nec,
                 "content": content
             }
@@ -235,6 +237,7 @@ def quest(request):
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
+                "description": question.description,
                 "nec": question.nec,
 
             }
@@ -246,6 +249,7 @@ def quest(request):
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
+                "description": question.description,
                 "nec": question.nec,
 
             }
