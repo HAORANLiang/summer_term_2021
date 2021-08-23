@@ -261,7 +261,7 @@ def quest(request):
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
-                "description":question.description,
+                "description": question.description,
                 "nec": question.nec,
                 "content": content
             }
@@ -367,12 +367,12 @@ def set_publish_info(request):
     list_changed.only_once = (only_once == 1)
     str_start_time = request.GET.get("start_time")
     str_deadline = request.GET.get("deadline")
-    if not str_start_time is None:
+    if len(str_start_time) != 0:
         start_time = datetime.datetime.strptime(str_start_time, '%Y-%m-%dT%H:%M')
     else:
         start_time = datetime.datetime.now()
     list_changed.start_time = start_time
-    if not str_deadline is None:
+    if len(str_deadline) != 0:
         deadline = datetime.datetime.strptime(str_deadline, '%Y-%m-%dT%H:%M')
         list_changed.end_time = deadline
     # list_changed.full_time = deadline - start_time
