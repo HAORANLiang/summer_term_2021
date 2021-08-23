@@ -25,9 +25,9 @@ def get_list(request):
             Q(owner_id=owner_id)
         )
     if sortType == 1:
-        list_menu = list_menu.order_by('-start_time')
+        list_menu = list_menu.filter(state="已发布").order_by('-publish_time')
     elif sortType == 2:
-        list_menu = list_menu.order_by('start_time')
+        list_menu = list_menu.filter(state="已发布").order_by('publish_time')
     elif sortType == 3:
         list_menu = list_menu.order_by('-create_time')
     elif sortType == 4:

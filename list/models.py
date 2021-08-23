@@ -10,6 +10,7 @@ class List(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, null=True)
     start_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)
+    publish_time = models.DateTimeField(null=True)
     last_edit_time = models.DateTimeField(auto_now=True, null=True)
     owner_id = models.IntegerField()
     que_num = models.IntegerField()
