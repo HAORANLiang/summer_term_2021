@@ -263,12 +263,12 @@ def quest(request):
 def set_publish(request):
     list_id = int(request.GET.get("id"))
     publish = int(request.GET.get("publish"))
-    print(publish, type(publish))
     if publish:
         state = "已发布"
+        List.objects.filter(list_id=list_id).update(state=state, publish_time=datetime.datetime.now())
     else:
         state = "未发布"
-    List.objects.filter(list_id=list_id).update(state=state)
+        List.objects.filter(list_id=list_id).update(state=state, publish_time=None)
     ret_data = {
         "result": True
     }
@@ -277,7 +277,6 @@ def set_publish(request):
 
 def set_publish_info(request):
     list_id = int(request.GET.get("id"))
-    print(list_id)
     need_login = int(request.GET.get("need_login"))
     only_once = int(request.GET.get("only_once"))
     start_time = datetime.datetime.strptime(request.GET.get("start_time"), '%Y-%m-%dT%H:%M')
