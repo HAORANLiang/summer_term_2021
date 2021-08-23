@@ -7,5 +7,6 @@ from owner import views
 urlpatterns = [
     path('sort', views.get_list),
     path('to_recycle', views.to_recycle),
-    path('get_recycle_list', views.get_recycle_list)
+    path('get_recycle_list', views.get_recycle_list),
+    path('copy_list', views.copy_list)
 ]
