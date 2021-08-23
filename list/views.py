@@ -5,6 +5,7 @@ from django.http import JsonResponse
 
 from list.models import *
 from question.models import *
+from result.models import *
 
 
 def add_list(request):
@@ -39,6 +40,7 @@ def delete_association(list_id):
     for build in list_to_delete:
         delete_type_qualify(build.que_type, build.que_id)
     Que_build.objects.filter(list_id=list_id).delete()
+    Result_build.objects.filter(list_id=list_id).delete()
 
 
 def delete_type_qualify(que_type, que_id):
@@ -188,6 +190,7 @@ def tot_delete(request):
     list_id = data.get("list_id")
     list = List.objects.get(list_id=list_id)
     list.delete()
+    delete_association(list_id)
     ret_data = {
         "msg": "删除成功"
     }
