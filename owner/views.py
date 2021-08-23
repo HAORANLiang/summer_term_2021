@@ -93,7 +93,7 @@ def change_pass(request):
     data = json.loads(request.body)
     username = data.get("username")
     password = data.get("password")
-    user = User.objects.get(username=username)
+    user = User.objects.get(name=username)
     user.password = password
     user.save()
     ret_data = {
