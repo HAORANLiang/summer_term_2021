@@ -136,35 +136,35 @@ def statistic(request):
                         x[i] += 1
 
             if question.content_1 != "":
-                tmp = {"1": 0 if (x[0]==0) else float(x[0])/num*100}
+                tmp = {"1": 0 if (x[0]==0) else int(float(x[0])/num*100)}
                 rate.update(tmp)
             if question.content_2 != "":
-                tmp = {"2": 0 if (x[1]==0) else float(x[1])/num*100}
+                tmp = {"2": 0 if (x[1]==0) else int(float(x[1])/num*100)}
                 rate.update(tmp)
             if question.content_3 != "":
-                tmp = {"3": 0 if (x[2]==0) else float(x[2])/num*100}
+                tmp = {"3": 0 if (x[2]==0) else int(float(x[2])/num*100)}
                 rate.update(tmp)
             if question.content_4 != "":
-                tmp = {"4": 0 if (x[3]==0) else float(x[3])/num*100}
+                tmp = {"4": 0 if (x[3]==0) else int(float(x[3])/num*100)}
                 rate.update(tmp)
             if question.content_5 != "":
-                tmp = {"5": 0 if (x[4]==0) else float(x[4])/num*100}
+                tmp = {"5": 0 if (x[4]==0) else int(float(x[4])/num*100)}
                 rate.update(tmp)
             if question.content_6 != "":
-                tmp = {"6": 0 if (x[5]==0) else float(x[5])/num*100}
+                tmp = {"6": 0 if (x[5]==0) else int(float(x[5])/num*100)}
                 rate.update(tmp)
             if question.content_7 != "":
-                tmp = {"7": 0 if (x[6]==0) else float(x[6])/num*100}
+                tmp = {"7": 0 if (x[6]==0) else int(float(x[6])/num*100)}
                 rate.update(tmp)
             if question.content_8 != "":
-                tmp = {"8": 0 if (x[7]==0) else float(x[7])/num*100}
+                tmp = {"8": 0 if (x[7]==0) else int(float(x[7])/num*100)}
                 rate.update(tmp)
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
                 'type': question.que_type,
                 'all': num,
-                'all_rate': 0 if (num==0) else float(num)/results_num*100,
+                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
                 'rate': rate
             }
             que.append(tmp_que)
@@ -200,35 +200,35 @@ def statistic(request):
                     if result.ans8 == i:
                         x[i] += 1
             if question.content_1 != "":
-                tmp = {"1": 0 if (x[0] == 0) else float(x[0]) / num * 100}
+                tmp = {"1": 0 if (x[0] == 0) else int(float(x[0]) / num * 100)}
                 rate.update(tmp)
             if question.content_2 != "":
-                tmp = {"2": 0 if (x[1] == 0) else float(x[1]) / num * 100}
+                tmp = {"2": 0 if (x[1] == 0) else int(float(x[1]) / num * 100)}
                 rate.update(tmp)
             if question.content_3 != "":
-                tmp = {"3": 0 if (x[2] == 0) else float(x[2]) / num * 100}
+                tmp = {"3": 0 if (x[2] == 0) else int(float(x[2]) / num * 100)}
                 rate.update(tmp)
             if question.content_4 != "":
-                tmp = {"4": 0 if (x[3] == 0) else float(x[3]) / num * 100}
+                tmp = {"4": 0 if (x[3] == 0) else int(float(x[3]) / num * 100)}
                 rate.update(tmp)
             if question.content_5 != "":
-                tmp = {"5": 0 if (x[4] == 0) else float(x[4]) / num * 100}
+                tmp = {"5": 0 if (x[4] == 0) else int(float(x[4]) / num * 100)}
                 rate.update(tmp)
             if question.content_6 != "":
-                tmp = {"6": 0 if (x[5] == 0) else float(x[5]) / num * 100}
+                tmp = {"6": 0 if (x[5] == 0) else int(float(x[5]) / num * 100)}
                 rate.update(tmp)
             if question.content_7 != "":
-                tmp = {"7": 0 if (x[6] == 0) else float(x[6]) / num * 100}
+                tmp = {"7": 0 if (x[6] == 0) else int(float(x[6]) / num * 100)}
                 rate.update(tmp)
             if question.content_8 != "":
-                tmp = {"8": 0 if (x[7] == 0) else float(x[7]) / num * 100}
+                tmp = {"8": 0 if (x[7] == 0) else int(float(x[7]) / num * 100)}
                 rate.update(tmp)
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
                 'type': question.que_type,
                 'all': num,
-                'all_rate': 0 if (num == 0) else float(num) / results_num * 100,
+                'all_rate': 0 if (num == 0) else int(float(num) / results_num * 100),
                 'rate': rate
             }
             que.append(tmp_que)
@@ -243,14 +243,14 @@ def statistic(request):
                     if result.ans == i:
                         x[i] += 1
             for i in range(10):
-                tmp = {str(i+1): 0 if (x[i+1]==0) else float(x[i+1])/num*100}
+                tmp = {str(i+1): 0 if (x[i+1]==0) else int(float(x[i+1])/num*100)}
                 rate.update(tmp)
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
                 'type': question.que_type,
                 'all': num,
-                'all_rate': 0 if (num==0) else float(num)/results_num*100,
+                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
                 'rate': rate
             }
             que.append(tmp_que)
@@ -262,7 +262,7 @@ def statistic(request):
                 'title': question.title,
                 'type': question.que_type,
                 'all': num,
-                'all_rate': 0 if (num==0) else float(num)/results_num*100,
+                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
 
             }
             que.append(tmp_que)
