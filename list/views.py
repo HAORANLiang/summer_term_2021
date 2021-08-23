@@ -13,6 +13,7 @@ def add_list(request):
     list_id = data.get("id")
     if not list_id == -1:
         new_list = List.objects.get(list_id=list_id)
+        delete_association(list_id)
     else:
         new_list.state = "未发布"
     new_list.list_type = data.get("type")
@@ -31,6 +32,39 @@ def add_list(request):
         "list_id": new_list.list_id
     }
     return JsonResponse(ret_data)
+
+
+def delete_association(list_id):
+    list_to_delete = Que_build.objects.filter(list_id=list_id)
+    for build in list_to_delete:
+        delete_type_qualify(build.que_type, build.que_id)
+    Que_build.objects.filter(list_id=list_id).delete()
+
+
+def delete_type_qualify(que_type, que_id):
+    case = {
+        "single": delete_single,
+        "multi": delete_multi,
+        "pack": delete_pack,
+        "rate": delete_rate
+    }
+    case.get(que_type)(que_id)
+
+
+def delete_single(single_id):
+    Single.objects.filter(single_id=single_id).delete()
+
+
+def delete_multi(multi_id):
+    Multi.objects.filter(multi_id=multi_id).delete()
+
+
+def delete_pack(pack_id):
+    Pack.objects.filter(pack_id=pack_id).delete()
+
+
+def delete_rate(rate_id):
+    Rate.objects.filter(rate_id=rate_id).delete()
 
 
 def que_qualify(list_id, que):
@@ -279,13 +313,19 @@ def set_publish_info(request):
     list_id = int(request.GET.get("id"))
     need_login = int(request.GET.get("need_login"))
     only_once = int(request.GET.get("only_once"))
-    start_time = datetime.datetime.strptime(request.GET.get("start_time"), '%Y-%m-%dT%H:%M')
-    deadline = datetime.datetime.strptime(request.GET.get("deadline"), '%Y-%m-%dT%H:%M')
     list_changed = List.objects.get(list_id=list_id)
     list_changed.need_login = (need_login == 1)
     list_changed.only_once = (only_once == 1)
+    str_start_time = request.GET.get("start_time")
+    str_deadline = request.GET.get("deadline")
+    if not str_start_time is None:
+        start_time = datetime.datetime.strptime(str_start_time, '%Y-%m-%dT%H:%M')
+    else:
+        start_time = datetime.datetime.now()
     list_changed.start_time = start_time
-    list_changed.end_time = deadline
+    if not str_deadline is None:
+        deadline = datetime.datetime.strptime(str_deadline, '%Y-%m-%dT%H:%M')
+        list_changed.end_time = deadline
     # list_changed.full_time = deadline - start_time
     list_changed.save()
     ret_data = {
