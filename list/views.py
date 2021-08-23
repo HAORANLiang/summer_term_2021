@@ -394,6 +394,12 @@ def set_publish_info(request):
         list_changed.end_time = deadline
     else:
         list_changed.end_time = None
+    if list_changed.end_time is not None:
+        if list_changed.end_time - list_changed.start_time < datetime.timedelta(0):
+            ret_data = {
+                "message": "time set problem"
+            }
+            return JsonResponse(ret_data)
     # list_changed.full_time = deadline - start_time
     list_changed.save()
     ret_data = {
