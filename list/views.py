@@ -197,6 +197,26 @@ def tot_delete(request):
     return JsonResponse(ret_data)
 
 
+def verity_quest(request):
+    id = request.GET.get("id")
+    list = List.objects.filter(list_id=id)
+    if not list.exists():
+        ret_data = {
+            "msg": "问卷不存在"
+        }
+        return JsonResponse(ret_data)
+    list = List.objects.get(list_id=id)
+    user_id = request.headers.get("id")
+    if list.only_once == 1:
+        tmp = Result.objects.filter(list_id=id, user_id=user_id)
+        if tmp.exists():
+            ret_data = {
+                "msg": "此问卷不可重复填写"
+            }
+            return JsonResponse(ret_data)
+    return quest(request)
+
+
 def quest(request):
     id = request.GET.get("id")
     list = List.objects.filter(list_id=id)
@@ -208,7 +228,7 @@ def quest(request):
     list = List.objects.get(list_id=id)
     if list.state != "已发布":
         user_id = request.headers.get("Authorization")
-        if user_id != list.owner_id:
+        if int(user_id) != list.owner_id:
             ret_data = {
                 "msg": "无权限访问"
             }
