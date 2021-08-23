@@ -19,11 +19,13 @@ def get_list(request):
         return JsonResponse(all_set.data, safe=False)
     if search_content is None:
         list_menu = List.objects.filter(owner_id=owner_id)
+        list_menu = list_menu.exclude(state="已删除")
     else:
         list_menu = List.objects.filter(
             Q(list_name__contains=search_content) &
             Q(owner_id=owner_id)
         )
+        list_menu = list_menu.exclude(state="已删除")
     if sortType == 1:
         list_menu = list_menu.filter(state="已发布").order_by('-publish_time')
     elif sortType == 2:
@@ -98,5 +100,18 @@ def change_pass(request):
     user.save()
     ret_data = {
         "message": "密码修改成功"
+    }
+    return JsonResponse(ret_data)
+
+
+def to_recycle(request):
+    data = json.load(request)
+    list_id = int(data.get("list_id"))
+    list_changed = List.objects.get(list_id=list_id)
+    list_changed.state = "已删除"
+    list_changed.publish_time = None
+    list_changed.save()
+    ret_data = {
+        "message": "问卷已删除，可在回收站中恢复或彻底删除"
     }
     return JsonResponse(ret_data)
