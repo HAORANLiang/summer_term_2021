@@ -211,7 +211,7 @@ def verity_quest(request):
             "msg": "问卷未发布"
         }
         return JsonResponse(ret_data)
-    user_id = request.headers.get("id")
+    user_id = request.headers.get("Authorization")
     if list.only_once == 1:
         tmp = Result.objects.filter(list_id=id, user_id=user_id)
         if tmp.exists():
