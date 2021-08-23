@@ -206,6 +206,11 @@ def verity_quest(request):
         }
         return JsonResponse(ret_data)
     list = List.objects.get(list_id=id)
+    if list.state != "已发布":
+        ret_data = {
+            "msg": "问卷未发布"
+        }
+        return JsonResponse(ret_data)
     user_id = request.headers.get("id")
     if list.only_once == 1:
         tmp = Result.objects.filter(list_id=id, user_id=user_id)
