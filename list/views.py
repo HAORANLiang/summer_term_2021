@@ -214,7 +214,7 @@ def verity_quest(request):
         return JsonResponse(ret_data)
     user_id = request.headers.get("Authorization")
     if list.need_login is True:
-        if user_id == 0:
+        if user_id == '0':
             ret_data = {
                 "isPublished": 1,
                 "needLogin": 1
