@@ -17,6 +17,8 @@ def add_list(request):
         delete_association(list_id)
     else:
         new_list.state = "未发布"
+        new_list.only_once = False
+        new_list.need_login = False
     new_list.list_type = data.get("type")
     new_list.list_name = data.get("list_name")
     new_list.owner_id = data.get("owner_id")
@@ -390,8 +392,14 @@ def set_publish_info(request):
     need_login = int(request.GET.get("need_login"))
     only_once = int(request.GET.get("only_once"))
     list_changed = List.objects.get(list_id=list_id)
-    list_changed.need_login = (need_login == 1)
-    list_changed.only_once = (only_once == 1)
+    if need_login == 1:
+        list_changed.need_login = True
+    else:
+        list_changed.need_login = False
+    if only_once == 1:
+        list_changed.only_once = True
+    else:
+        list_changed.only_once = False
     """
     str_start_time = request.GET.get("start_time")
     str_deadline = request.GET.get("deadline")

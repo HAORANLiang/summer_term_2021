@@ -15,8 +15,8 @@ class List(models.Model):
     owner_id = models.IntegerField()
     que_num = models.IntegerField()
     summary = models.CharField(max_length=256)
-    only_once = models.BooleanField(default=False)
-    need_login = models.BooleanField(default=False)
+    only_once = models.BooleanField()
+    need_login = models.BooleanField()
     list_num = models.IntegerField()
 
 
