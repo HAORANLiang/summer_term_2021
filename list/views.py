@@ -357,6 +357,7 @@ def get_publish(request):
         state = 0
     else:
         state = 2
+    """
     if list_searched.start_time is None:
         start_time = ""
     else:
@@ -365,12 +366,13 @@ def get_publish(request):
         deadline = ""
     else:
         deadline = json.dumps(list_searched.end_time.strftime('%Y-%m-%dT%H:%M:%S'))
+    """
     ret_data = {
         "publish": state,
         "need_login": list_searched.need_login,
         "only_once": list_searched.only_once,
-        "start_time": start_time,
-        "deadline": deadline
+        # "start_time": start_time,
+        # "deadline": deadline
     }
     return JsonResponse(ret_data)
 
@@ -382,6 +384,7 @@ def set_publish_info(request):
     list_changed = List.objects.get(list_id=list_id)
     list_changed.need_login = (need_login == 1)
     list_changed.only_once = (only_once == 1)
+    """
     str_start_time = request.GET.get("start_time")
     str_deadline = request.GET.get("deadline")
     if len(str_start_time) != 0:
@@ -400,6 +403,7 @@ def set_publish_info(request):
                 "message": "time set problem"
             }
             return JsonResponse(ret_data)
+    """
     # list_changed.full_time = deadline - start_time
     list_changed.save()
     ret_data = {
