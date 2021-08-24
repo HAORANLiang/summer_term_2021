@@ -41,6 +41,7 @@ def delete_association(list_id):
         delete_type_qualify(build.que_type, build.que_id)
     Que_build.objects.filter(list_id=list_id).delete()
     Result_build.objects.filter(list_id=list_id).delete()
+    Result.objects.filter(list_id=list_id).delete()
 
 
 def delete_type_qualify(que_type, que_id):
