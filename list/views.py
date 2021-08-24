@@ -23,8 +23,6 @@ def add_list(request):
     new_list.list_name = data.get("list_name")
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")
-    new_list.only_once = True
-    new_list.need_login = True
     new_list.list_num = 0
     body = data.get("body")
     new_list.que_num = len(body)
