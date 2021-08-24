@@ -208,17 +208,25 @@ def verity_quest(request):
     list = List.objects.get(list_id=id)
     if list.state != "已发布":
         ret_data = {
-            "msg": "问卷未发布"
+            "isPublished": 0,
+            "needLogin": 0
         }
         return JsonResponse(ret_data)
     user_id = request.headers.get("Authorization")
-    if list.only_once == 1:
-        tmp = Result.objects.filter(list_id=id, user_id=user_id)
-        if tmp.exists():
+    if list.need_login is True:
+        if user_id == 0:
             ret_data = {
-                "msg": "此问卷不可重复填写"
+                "isPublished": 1,
+                "needLogin": 1
             }
             return JsonResponse(ret_data)
+        if list.only_once == 1:
+            tmp = Result.objects.filter(list_id=id, user_id=user_id)
+            if tmp.exists():
+                ret_data = {
+                    "msg": "此问卷不可重复填写"
+                }
+                return JsonResponse(ret_data)
     return quest(request)
 
 
