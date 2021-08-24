@@ -116,7 +116,7 @@ def statistic(request):
     list_id = request.GET.get("id")
     list = List.objects.get(list_id=list_id)
     results = Result.objects.filter(list_id=list_id)
-    results_num = Result_build.objects.filter(list_id=list_id).count()
+    results_num = Result.objects.filter(list_id=list_id).count()
     que = []
     builds = Que_build.objects.filter(list_id=list_id).order_by('que_no')
     for build in builds:
