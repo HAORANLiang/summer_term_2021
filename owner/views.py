@@ -151,6 +151,8 @@ def copy_list(request):
     new_list.state = "未发布"
     new_list.que_num = list_source.que_num
     new_list.list_num = 0
+    new_list.only_once = list_source.only_once
+    new_list.need_login = list_source.only_once
     new_list.save()
     que_build_list = Que_build.objects.filter(list_id=list_id)
     for que_build_each in que_build_list:
