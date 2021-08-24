@@ -165,7 +165,7 @@ def statistic(request):
                 'description': question.description,
                 'type': type,
                 'all': num,
-                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
+                'all_rate': 0 if (num==0) else int(float(num)/num*100),
                 'rate': rate
             }
             que.append(tmp_que)
@@ -230,7 +230,7 @@ def statistic(request):
                 'description': question.description,
                 'type': type,
                 'all': num,
-                'all_rate': 0 if (num == 0) else int(float(num) / results_num * 100),
+                'all_rate': 0 if (num == 0) else int(float(num) / num * 100),
                 'rate': rate
             }
             que.append(tmp_que)
@@ -253,7 +253,7 @@ def statistic(request):
                 'description': question.description,
                 'type': type,
                 'all': num,
-                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
+                'all_rate': 0 if (num==0) else int(float(num)/num*100),
                 'rate': rate
             }
             que.append(tmp_que)
@@ -266,7 +266,7 @@ def statistic(request):
                 'description': question.description,
                 'type': type,
                 'all': num,
-                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
+                'all_rate': 0 if (num==0) else int(float(num)/num*100),
 
             }
             que.append(tmp_que)
