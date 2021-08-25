@@ -488,18 +488,11 @@ def code_quest(request):
         }
         return JsonResponse(ret_data)
     list = List.objects.get(code=code)
-    id = list.list_id
-    list = List.objects.filter(list_id=id)
-    if not list.exists():
-        ret_data = {
-            "msg": "问卷不存在"
-        }
-        return JsonResponse(ret_data)
-    list = List.objects.get(list_id=id)
     if list.state != "已发布":
         ret_data = {
             "isPublished": 0,
-            "needLogin": 0
+            "needLogin": 0,
+            "available": 1
         }
         return JsonResponse(ret_data)
     user_id = request.headers.get("Authorization")
@@ -507,7 +500,8 @@ def code_quest(request):
         if user_id == '0':
             ret_data = {
                 "isPublished": 1,
-                "needLogin": 1
+                "needLogin": 1,
+                "available": 1
             }
             return JsonResponse(ret_data)
         if list.only_once == 1:
@@ -517,4 +511,12 @@ def code_quest(request):
                     "msg": "此问卷不可重复填写"
                 }
                 return JsonResponse(ret_data)
+    data = request.GET.copy()
+    # 修改参数值
+    tmp = {"id": list.list_id}
+    data.update(tmp)
+    if data:
+        request.GET = data
     return quest(request)
+
+
