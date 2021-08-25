@@ -456,6 +456,9 @@ def get_code(request):
     data = json.loads(request.body)
     list_id = data.get("list_id")
     list = List.objects.get(list_id=list_id)
+    if list.code == "":
+        list.code = generate_code()
+        list.save()
     code=list.code
     ret_data = {
         "old_code": code
