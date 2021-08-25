@@ -334,6 +334,7 @@ def quest(request):
             body.append(group)
     ret_data = {
         "list_name": list.list_name,
+        "list_id": list.list_id,
         "type": list.list_type,
         "owner_id": list.owner_id,
         "summary": list.summary,
