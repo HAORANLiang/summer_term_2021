@@ -506,7 +506,7 @@ def code_quest(request):
             }
             return JsonResponse(ret_data)
         if list.only_once == 1:
-            tmp = Result.objects.filter(list_id=id, user_id=user_id)
+            tmp = Result.objects.filter(list_id=list.list_id, user_id=user_id)
             if tmp.exists():
                 ret_data = {
                     "msg": "此问卷不可重复填写"
