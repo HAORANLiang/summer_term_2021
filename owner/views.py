@@ -144,7 +144,7 @@ def copy_list(request):
         }
         return JsonResponse(ret_data)
     new_list = List()
-    new_list.list_name = list_source.list_name
+    new_list.list_name = list_source.list_name + "（副本）"
     new_list.list_type = list_source.list_type
     new_list.summary = list_source.summary
     new_list.owner_id = owner_id
