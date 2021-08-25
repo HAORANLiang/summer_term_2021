@@ -451,6 +451,16 @@ def new_code(request):
     return JsonResponse(ret_data)
 
 
+def get_code(request):
+    data = json.loads(request.body)
+    list_id = data.get("list_id")
+    list = List.objects.get(list_id=list_id)
+    code=list.code
+    ret_data = {
+        "old_code": code
+    }
+    return JsonResponse(ret_data)
+
 def verify_code(request):
     code = request.GET.get("code")
     list = List.objects.filter(code=code)
