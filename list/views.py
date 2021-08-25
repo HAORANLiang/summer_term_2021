@@ -465,3 +465,46 @@ def verify_code(request):
         "list_id": list_id
     }
     return JsonResponse(ret_data)
+
+
+def code_quest(request):
+    code = request.GET.get("code")
+    list = List.objects.filter(code=code)
+    if not list.exists():
+        ret_data = {
+            "isPublished": 0,
+            "needLogin": 0,
+            "available": 0
+        }
+        return JsonResponse(ret_data)
+    list = List.objects.get(code=code)
+    id = list.list_id
+    list = List.objects.filter(list_id=id)
+    if not list.exists():
+        ret_data = {
+            "msg": "问卷不存在"
+        }
+        return JsonResponse(ret_data)
+    list = List.objects.get(list_id=id)
+    if list.state != "已发布":
+        ret_data = {
+            "isPublished": 0,
+            "needLogin": 0
+        }
+        return JsonResponse(ret_data)
+    user_id = request.headers.get("Authorization")
+    if list.need_login is True:
+        if user_id == '0':
+            ret_data = {
+                "isPublished": 1,
+                "needLogin": 1
+            }
+            return JsonResponse(ret_data)
+        if list.only_once == 1:
+            tmp = Result.objects.filter(list_id=id, user_id=user_id)
+            if tmp.exists():
+                ret_data = {
+                    "msg": "此问卷不可重复填写"
+                }
+                return JsonResponse(ret_data)
+    return quest(request)

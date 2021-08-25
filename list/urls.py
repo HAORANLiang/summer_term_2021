@@ -10,5 +10,6 @@ urlpatterns = [
     path('set_publish_info', views.set_publish_info),
     path('get_publish_info', views.get_publish),
     path('verify_code', views.verify_code),
-    path('new_code', views.new_code)
+    path('new_code', views.new_code),
+    path('code_quest', views.code_quest),
 ]
