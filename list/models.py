@@ -18,7 +18,7 @@ class List(models.Model):
     only_once = models.BooleanField()
     need_login = models.BooleanField()
     list_num = models.IntegerField()
-    code = models.CharField()
+    code = models.CharField(max_length=64)
 
 
 class Que_build(models.Model):

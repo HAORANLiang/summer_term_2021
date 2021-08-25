@@ -462,6 +462,6 @@ def verify_code(request):
     list = List.objects.get(code=code)
     list_id = list.list_id
     ret_data = {
-        "list_id": ""
+        "list_id": list_id
     }
     return JsonResponse(ret_data)
