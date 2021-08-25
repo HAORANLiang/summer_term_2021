@@ -2,7 +2,7 @@ import json
 import datetime
 
 from django.http import JsonResponse
-
+from random import Random
 from list.models import *
 from question.models import *
 from result.models import *
@@ -423,5 +423,45 @@ def set_publish_info(request):
     list_changed.save()
     ret_data = {
         "result": True
+    }
+    return JsonResponse(ret_data)
+
+
+def generate_code(randomlength=8):
+
+    str = ''
+    chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+    length = len(chars) - 1
+    random = Random()
+    for i in range(randomlength):
+        str += chars[random.randint(0, length)]
+    return str
+
+
+def new_code(request):
+    data = json.loads(request.body)
+    list_id = data.get("list_id")
+    code = generate_code()
+    list = List.objects.get(list_id=list_id)
+    list.code = code
+    list.save()
+    ret_data = {
+        "new_code": code
+    }
+    return JsonResponse(ret_data)
+
+
+def verify_code(request):
+    code = request.GET.get("code")
+    list = List.objects.filter(code=code)
+    if not list.exists():
+        ret_data = {
+            "list_id": ""
+        }
+        return JsonResponse(ret_data)
+    list = List.objects.get(code=code)
+    list_id = list.list_id
+    ret_data = {
+        "list_id": ""
     }
     return JsonResponse(ret_data)
