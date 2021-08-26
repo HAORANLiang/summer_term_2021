@@ -307,7 +307,9 @@ def all_result_count(request):
 
 
 def to_excel(request):
-    list_id = request.POST.get('list_id')
+    #list_id = request.POST.get('list_id')
+    data = json.loads(request.body)
+    list_id = data.get("list_id")
     list = List.objects.filter(list_id=list_id)
     results = Result.objects.filter(list_id=list_id)
     # 设置HTTPResponse的类型
@@ -340,7 +342,7 @@ def to_excel(request):
     results = Result.objects.filter(list_id=list_id)
     excel_row = 1
     for result in results:
-        for j in (1, i):
+        for j in range(1, i+1):
             res_build = Result_build.objects.filter(result_id=result.result_id,que_no=j)
             name = ""
             content = ""
@@ -348,51 +350,38 @@ def to_excel(request):
                 res_build = Result_build.objects.get(result_id=result.result_id, que_no=j)
                 if res_build.que_type == "single":
                     question = Single_ans.objects.get(single_id=res_build.que_id)
-                    contents = [
-                        question.content_1,
-                        question.content_2,
-                        question.content_3,
-                        question.content_4,
-                        question.content_5,
-                        question.content_6,
-                        question.content_7,
-                        question.content_8,
-                    ]
-                    for i in range(8):
-                        if contents[i] != 0:
-                            content += str(contents[i]) + " "
+                    content += str(question.ans) + " "
                 if res_build.que_type == "multi":
                     question = Multi_ans.objects.get(multi_id=res_build.que_id)
                     contents = [
-                        question.content_1,
-                        question.content_2,
-                        question.content_3,
-                        question.content_4,
-                        question.content_5,
-                        question.content_6,
-                        question.content_7,
-                        question.content_8,
+                        question.ans1,
+                        question.ans2,
+                        question.ans3,
+                        question.ans4,
+                        question.ans5,
+                        question.ans6,
+                        question.ans7,
+                        question.ans8,
                     ]
                     for i in range(8):
-                        if contents[i] != 0:
+                        if str(contents[i]) != "None":
                             content += str(contents[i]) + " "
                 if res_build.que_type == "pack":
                     question = Pack_ans.objects.get(pack_id=res_build.que_id)
                     contents = [
-                        question.content_1,
-                        question.content_2,
-                        question.content_3,
-                        question.content_4,
-                        question.content_5,
+                        question.ans1,
+                        question.ans2,
+                        question.ans3,
+                        question.ans4,
+                        question.ans5,
                     ]
                     for i in range(5):
-                        if contents[i] != 0:
+                        if str(contents[i]) != "None":
                             content += str(contents[i]) + " "
                 if res_build.que_type == "rate":
                     question = Rate_ans.objects.get(rate_id=res_build.que_id)
                     content += str(question.ans)
                 w.write(excel_row, j, content)
-
         excel_row += 1
     # 写出到IO
     output = BytesIO()
