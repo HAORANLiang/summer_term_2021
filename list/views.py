@@ -27,7 +27,7 @@ def add_list(request):
     new_list.list_num = 0
     body = data.get("body")
     new_list.que_num = len(body)
-    new_list.code = generate_code
+    new_list.code = generate_code()
     new_list.save()
     for que in body:
         que_qualify(new_list.list_id, que)

@@ -327,6 +327,7 @@ def to_excel(request):
             question = Rate.objects.get(rate_id=build.que_id)
         name = question.title
         w.write(0, i, name)
+        i +=1
     # 写入数据
     results = Result.objects.filter(list_id=list_id)
     excel_row = 1
