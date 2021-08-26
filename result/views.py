@@ -299,12 +299,12 @@ def all_result_count(request):
 
 
 def to_excel(request):
-    list_id = request.GET.get('list_id')
+    list_id = request.POST.get('list_id')
     list = List.objects.filter(list_id=list_id)
     results = Result.objects.filter(list_id=list_id)
     # 设置HTTPResponse的类型
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment;filename=' + list_id + '.xls'
+    response['Content-Disposition'] = 'attachment;filename=' + str(list_id) + '.xls'
     """导出excel表"""
 
     # 创建工作簿
