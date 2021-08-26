@@ -228,6 +228,6 @@ def get_location(request):
         request.GET = data
     url = 'https://restapi.amap.com/v5/ip'
     response = requests.get(url=url, params=tmp)
-    return JsonResponse(response.text, safe=False)
+    return JsonResponse(json.load(response.text), safe=False)
 
 
