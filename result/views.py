@@ -3,11 +3,13 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 import json
 from result.models import *
 from question.models import *
 from list.models import *
+import xlwt
+from io import BytesIO
 
 
 # Create your views here.
@@ -282,3 +284,99 @@ def statistic(request):
 def all_result_count(request):
     num = Result.objects.all().aggregate(Max('result_id'))
     return JsonResponse(num)
+
+
+def to_excel(request):
+    list_id = request.GET.get('list_id')
+    list = List.objects.filter(list_id=list_id)
+    results = Result.objects.filter(list_id=list_id)
+    # 设置HTTPResponse的类型
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment;filename=' + list_id + '.xls'
+    """导出excel表"""
+
+    # 创建工作簿
+    ws = xlwt.Workbook(encoding='utf-8')
+    # 添加第一页数据表
+    w = ws.add_sheet('sheet1')  # 新建sheet（sheet的名称为"sheet1"）
+    # 写入表头
+    builds = Que_build.objects.filter(list_id=list_id).order_by("que_no")
+    i = 1
+    for build in builds:
+        name = ""
+        question = ""
+        if build.que_type == "single":
+            question = Single.objects.get(single_id=build.que_id)
+        if build.que_type == "multi":
+            question = Multi.objects.get(multi_id=build.que_id)
+        if build.que_type == "pack":
+            question = Pack.objects.get(pack_id=build.que_id)
+        if build.que_type == "rate":
+            question = Rate.objects.get(rate_id=build.que_id)
+        name = question.title
+        w.write(0, i, name)
+    # 写入数据
+    results = Result.objects.filter(list_id=list_id)
+    excel_row = 1
+    for result in results:
+        for j in (1, i):
+            res_build = Result_build.objects.filter(result_id=result.result_id,que_no=j)
+            name = ""
+            content = ""
+            if res_build.exists():
+                res_build = Result_build.objects.get(result_id=result.result_id, que_no=j)
+                if res_build.que_type == "single":
+                    question = Single_ans.objects.get(single_id=res_build.que_id)
+                    contents = [
+                        question.content_1,
+                        question.content_2,
+                        question.content_3,
+                        question.content_4,
+                        question.content_5,
+                        question.content_6,
+                        question.content_7,
+                        question.content_8,
+                    ]
+                    for i in range(8):
+                        if contents[i] != 0:
+                            content += str(contents[i]) + " "
+                if res_build.que_type == "multi":
+                    question = Multi_ans.objects.get(multi_id=res_build.que_id)
+                    contents = [
+                        question.content_1,
+                        question.content_2,
+                        question.content_3,
+                        question.content_4,
+                        question.content_5,
+                        question.content_6,
+                        question.content_7,
+                        question.content_8,
+                    ]
+                    for i in range(8):
+                        if contents[i] != 0:
+                            content += str(contents[i]) + " "
+                if res_build.que_type == "pack":
+                    question = Pack_ans.objects.get(pack_id=res_build.que_id)
+                    contents = [
+                        question.content_1,
+                        question.content_2,
+                        question.content_3,
+                        question.content_4,
+                        question.content_5,
+                    ]
+                    for i in range(5):
+                        if contents[i] != 0:
+                            content += str(contents[i]) + " "
+                if res_build.que_type == "rate":
+                    question = Rate_ans.objects.get(rate_id=res_build.que_id)
+                    content += str(question.ans)
+                w.write(excel_row, j, content)
+
+        excel_row += 1
+    # 写出到IO
+    output = BytesIO()
+    ws.save(output)
+    # 重新定位到开始
+    output.seek(0)
+    response.write(output.getvalue())
+    return response
