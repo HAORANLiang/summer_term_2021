@@ -15,6 +15,10 @@ def get_list(request):
     search_content = request.GET.get("searchContent")
     owner_id = int(request.GET.get("owner_id"))
     sortType = int(request.GET.get("sortType"))
+    List.objects.filter(
+        Q(state="已发布") &
+        Q(end_time__lt=datetime.datetime.now())
+    ).update(state="未发布")
     if sortType == 0:
         list_menu = List.objects.filter(owner_id=owner_id)
         all_set = ListSerializer(list_menu, many=True)

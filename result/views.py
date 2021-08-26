@@ -1,4 +1,6 @@
-from django.db.models import Max
+import datetime
+
+from django.db.models import Max, Q
 from django.shortcuts import render
 from django.shortcuts import render
 from django.utils import timezone
@@ -15,6 +17,16 @@ def save_result(request):
     data = json.loads(request.body)
     result = Result()
     result.list_id = data.get("id")
+    List.objects.filter(
+        Q(list_id=int(data.get("id"))) &
+        Q(state="已发布") &
+        Q(end_time__lt=datetime.datetime.now())
+    ).update("未发布")
+    if List.objects.get(list_id=int(data.get("id"))).state == "未发布":
+        ret_data = {
+            "message": "问卷已截止"
+        }
+        return JsonResponse(ret_data)
     if data.get("user_id") != "null":
         result.user_id = data.get("user_id")
     result.save()
