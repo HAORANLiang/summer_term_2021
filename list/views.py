@@ -371,17 +371,17 @@ def get_publish(request):
         start_time = ""
     else:
         start_time = json.dumps(list_searched.start_time.strftime('%Y-%m-%dT%H:%M:%S'))
+    """
     if list_searched.end_time is None:
         deadline = ""
     else:
         deadline = json.dumps(list_searched.end_time.strftime('%Y-%m-%dT%H:%M:%S'))
-    """
     ret_data = {
         "publish": state,
         "need_login": list_searched.need_login,
         "only_once": list_searched.only_once,
         # "start_time": start_time,
-        # "deadline": deadline
+        "deadline": deadline
     }
     return JsonResponse(ret_data)
 
@@ -399,19 +399,20 @@ def set_publish_info(request):
         list_changed.only_once = True
     else:
         list_changed.only_once = False
-    """
-    str_start_time = request.GET.get("start_time")
+    list_changed.start_time = datetime.datetime.now()
     str_deadline = request.GET.get("deadline")
-    if len(str_start_time) != 0:
-        start_time = datetime.datetime.strptime(str_start_time, '%Y-%m-%dT%H:%M:%S')
-    else:
-        start_time = datetime.datetime.now()
-    list_changed.start_time = start_time
     if len(str_deadline) != 0:
         deadline = datetime.datetime.strptime(str_deadline, '%Y-%m-%dT%H:%M:%S')
         list_changed.end_time = deadline
     else:
         list_changed.end_time = None
+    """
+    str_start_time = request.GET.get("start_time")
+    if len(str_start_time) != 0:
+        start_time = datetime.datetime.strptime(str_start_time, '%Y-%m-%dT%H:%M:%S')
+    else:
+        
+    list_changed.start_time = start_time
     if list_changed.end_time is not None:
         if list_changed.end_time - list_changed.start_time < datetime.timedelta(0):
             ret_data = {
