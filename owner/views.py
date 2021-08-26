@@ -1,5 +1,6 @@
 import copy
-import json
+
+import requests,json
 
 from django.db.models import Q
 from django.http import JsonResponse
@@ -208,3 +209,25 @@ def copy_rate(rate_id):
     new_rate.pk = None
     new_rate.save()
     return new_rate.rate_id
+
+
+def get_location(request):
+    if request.META.get('HTTP_X_FORWARDED_FOR'):
+        ip = request.META.get("HTTP_X_FORWARDED_FOR")
+    else:
+        ip = request.META.get("REMOTE_ADDR")
+    data = request.GET.copy()
+    # 修改参数值
+    tmp = {
+        "ip": ip,
+        "key": "29fadc0a08a720f849d1637b202a1c10",
+        "type": 4
+    }
+    data.update(tmp)
+    if data:
+        request.GET = data
+    url = 'https://restapi.amap.com/v5/ip'
+    response = requests.get(url=url, params=tmp)
+    return JsonResponse(response.text, safe=False)
+
+
