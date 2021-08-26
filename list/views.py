@@ -20,7 +20,7 @@ def add_list(request):
         new_list.state = "未发布"
         new_list.only_once = False
         new_list.need_login = False
-    new_list.list_type = data.get("type")
+    new_list.list_type = data.get("list_type")
     new_list.list_name = data.get("list_name")
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")

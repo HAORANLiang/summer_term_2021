@@ -19,11 +19,19 @@ def save_result(request):
     data = json.loads(request.body)
     result = Result()
     result.list_id = data.get("id")
+    list_id = int(data.get("id"))
+    the_list = List.objects.get(list_id=list_id)
+    if the_list.state == "已发布" and the_list.end_time is not None:
+            if the_list.end_time - datetime.datetime.now() < datetime.timedelta(0):
+                the_list.state = "未发布"
+                the_list.save()
+    """
     List.objects.filter(
         Q(list_id=int(data.get("id"))) &
         Q(state="已发布") &
         Q(end_time__lt=datetime.datetime.now())
     ).update("未发布")
+    """
     if List.objects.get(list_id=int(data.get("id"))).state == "未发布":
         ret_data = {
             "message": "问卷已截止"
