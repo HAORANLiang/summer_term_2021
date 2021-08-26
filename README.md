@@ -9,3 +9,5 @@
     5. pytz v2021.1
     6. setuptools   v57.4.0
     7. sqlparse v0.4.1
+    8. xlwt v1.3.0
+    9. requests 
