@@ -1,3 +1,4 @@
+from django.db.models import Max
 from django.shortcuts import render
 from django.shortcuts import render
 from django.utils import timezone
@@ -276,3 +277,8 @@ def statistic(request):
         "que": que
     }
     return JsonResponse(ret_data)
+
+
+def all_result_count(request):
+    num = Result.objects.all().aggregate(Max('result_id'))
+    return JsonResponse(num)
