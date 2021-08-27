@@ -334,12 +334,17 @@ def quest(request):
 
             }
             body.append(group)
+    if list.end_time is None:
+        deadline = ""
+    else:
+        deadline = json.dumps(list.end_time.strftime('%Y-%m-%dT%H:%M:%S'))
     ret_data = {
         "list_name": list.list_name,
         "list_id": list.list_id,
         "type": list.list_type,
         "owner_id": list.owner_id,
         "summary": list.summary,
+        "deadline": deadline,
         "body": body
     }
     return JsonResponse(ret_data)
