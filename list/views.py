@@ -141,6 +141,8 @@ def add_right_choice(que, right_answer):
 
 
 def add_leave(que, leave):
+    if leave is None:
+        return
     num = len(leave)
     if num > 0:
         que.content_1_leave = int(leave[0])
