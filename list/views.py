@@ -339,7 +339,6 @@ def quest(request):
             if question.content_8 != "":
                 content.append(question.content_8)
             leave = []
-            right_answer = []
             if question.que_type == "apply":
                 if question.content_1_leave != "":
                     leave.append(question.content_1_leave)
@@ -357,6 +356,8 @@ def quest(request):
                     leave.append(question.content_7_leave)
                 if question.content_8_leave != "":
                     leave.append(question.content_8_leave)
+            right_answer = []
+            if question.que_type == "exam":
                 if question.content_1_isTrue:
                     right_answer.append(0)
                 if question.content_2_isTrue:
@@ -405,7 +406,6 @@ def quest(request):
             if question.content_8 != "":
                 content.append(question.content_8)
             leave = []
-            right_answer = []
             if question.que_type == "apply":
                 if question.content_1_leave != "":
                     leave.append(question.content_1_leave)
@@ -423,6 +423,8 @@ def quest(request):
                     leave.append(question.content_7_leave)
                 if question.content_8_leave != "":
                     leave.append(question.content_8_leave)
+            right_answer = []
+            if question.que_type == "exam":
                 if question.content_1_isTrue:
                     right_answer.append(0)
                 if question.content_2_isTrue:
@@ -454,7 +456,7 @@ def quest(request):
         if type == "pack":
             question = Pack.objects.get(pack_id=id)
             right_answer = []
-            if question.que_type == "apply":
+            if question.que_type == "exam":
                 if question.pack_ans_1 != "":
                     right_answer.append(question.pack_ans_1)
                 if question.pack_ans_2 != "":
