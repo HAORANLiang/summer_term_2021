@@ -202,7 +202,6 @@ def add_pack(pack):
     new_pack.score = pack.get("score")
     new_pack.pack_num = get_blank_num(new_pack.title)
     right_answer = pack.get("right_answer")
-    new_pack.save()
     num = new_pack.pack_num
     if num > 0:
         pack.pack_ans_1 = right_answer[0]
@@ -214,6 +213,7 @@ def add_pack(pack):
         pack.pack_ans_4 = right_answer[3]
     elif num > 4:
         pack.pack_ans_5 = right_answer[4]
+    new_pack.save()
     return new_pack.pack_id
 
 
@@ -339,7 +339,7 @@ def quest(request):
             if question.content_8 != "":
                 content.append(question.content_8)
             leave = []
-            if question.que_type == "apply":
+            if list.list_type == "apply":
                 if question.content_1_leave != "":
                     leave.append(question.content_1_leave)
                 if question.content_2_leave != "":
@@ -357,7 +357,7 @@ def quest(request):
                 if question.content_8_leave != "":
                     leave.append(question.content_8_leave)
             right_answer = []
-            if question.que_type == "exam":
+            if list.list_type == "exam":
                 if question.content_1_isTrue:
                     right_answer.append(0)
                 if question.content_2_isTrue:
@@ -406,7 +406,7 @@ def quest(request):
             if question.content_8 != "":
                 content.append(question.content_8)
             leave = []
-            if question.que_type == "apply":
+            if list.list_type == "apply":
                 if question.content_1_leave != "":
                     leave.append(question.content_1_leave)
                 if question.content_2_leave != "":
@@ -424,7 +424,7 @@ def quest(request):
                 if question.content_8_leave != "":
                     leave.append(question.content_8_leave)
             right_answer = []
-            if question.que_type == "exam":
+            if list.list_type == "exam":
                 if question.content_1_isTrue:
                     right_answer.append(0)
                 if question.content_2_isTrue:
@@ -456,16 +456,21 @@ def quest(request):
         if type == "pack":
             question = Pack.objects.get(pack_id=id)
             right_answer = []
-            if question.que_type == "exam":
-                if question.pack_ans_1 != "":
+            if list.list_type == "exam":
+                if question.pack_ans_1 is not None:
+                    # print(question.pack_ans_1)
                     right_answer.append(question.pack_ans_1)
-                if question.pack_ans_2 != "":
+                if question.pack_ans_2 is not None:
+                    # print(question.pack_ans_2)
                     right_answer.append(question.pack_ans_2)
-                if question.pack_ans_3 != "":
+                if question.pack_ans_3 is not None:
+                    # print(question.pack_ans_3)
                     right_answer.append(question.pack_ans_3)
-                if question.pack_ans_4 != "":
+                if question.pack_ans_4 is not None:
+                    # print(question.pack_ans_4)
                     right_answer.append(question.pack_ans_4)
-                if question.pack_ans_5 != "":
+                if question.pack_ans_5 is not None:
+                    # print(question.pack_ans_5)
                     right_answer.append(question.pack_ans_5)
             group = {
                 "no": tmp.que_no,
