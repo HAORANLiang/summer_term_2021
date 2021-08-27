@@ -201,7 +201,7 @@ def add_pack(pack):
     new_pack.pack_num = get_blank_num(new_pack.title)
     right_answer = pack.get("right_answer")
     new_pack.save()
-    num = pack.pack_num
+    num = new_pack.pack_num
     if num > 0:
         pack.pack_ans_1 = right_answer[0]
     elif num > 1:
