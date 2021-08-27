@@ -338,13 +338,52 @@ def quest(request):
                 content.append(question.content_7)
             if question.content_8 != "":
                 content.append(question.content_8)
+            leave = []
+            if question.que_type == "apply":
+                if question.content_1_leave != "":
+                    leave.append(question.content_1_leave)
+                if question.content_2_leave != "":
+                    leave.append(question.content_2_leave)
+                if question.content_3_leave != "":
+                    leave.append(question.content_3_leave)
+                if question.content_4_leave != "":
+                    leave.append(question.content_4_leave)
+                if question.content_5_leave != "":
+                    leave.append(question.content_5_leave)
+                if question.content_6_leave != "":
+                    leave.append(question.content_6_leave)
+                if question.content_7_leave != "":
+                    leave.append(question.content_7_leave)
+                if question.content_8_leave != "":
+                    leave.append(question.content_8_leave)
+            right_answer = []
+            if question.que_type == "exam":
+                if question.content_1_isTrue:
+                    right_answer.append(0)
+                if question.content_2_isTrue:
+                    right_answer.append(1)
+                if question.content_3_isTrue:
+                    right_answer.append(2)
+                if question.content_4_isTrue:
+                    right_answer.append(3)
+                if question.content_5_isTrue:
+                    right_answer.append(4)
+                if question.content_6_isTrue:
+                    right_answer.append(5)
+                if question.content_7_isTrue:
+                    right_answer.append(6)
+                if question.content_8_isTrue:
+                    right_answer.append(7)
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
                 "description": question.description,
                 "nec": question.nec,
-                "content": content
+                "content": content,
+                "leave": leave,
+                "score": question.score,
+                "right_answer": right_answer
             }
             body.append(group)
         if type == "multi":
@@ -366,25 +405,76 @@ def quest(request):
                 content.append(question.content_7)
             if question.content_8 != "":
                 content.append(question.content_8)
+            leave = []
+            if question.que_type == "apply":
+                if question.content_1_leave != "":
+                    leave.append(question.content_1_leave)
+                if question.content_2_leave != "":
+                    leave.append(question.content_2_leave)
+                if question.content_3_leave != "":
+                    leave.append(question.content_3_leave)
+                if question.content_4_leave != "":
+                    leave.append(question.content_4_leave)
+                if question.content_5_leave != "":
+                    leave.append(question.content_5_leave)
+                if question.content_6_leave != "":
+                    leave.append(question.content_6_leave)
+                if question.content_7_leave != "":
+                    leave.append(question.content_7_leave)
+                if question.content_8_leave != "":
+                    leave.append(question.content_8_leave)
+            right_answer = []
+            if question.que_type == "exam":
+                if question.content_1_isTrue:
+                    right_answer.append(0)
+                if question.content_2_isTrue:
+                    right_answer.append(1)
+                if question.content_3_isTrue:
+                    right_answer.append(2)
+                if question.content_4_isTrue:
+                    right_answer.append(3)
+                if question.content_5_isTrue:
+                    right_answer.append(4)
+                if question.content_6_isTrue:
+                    right_answer.append(5)
+                if question.content_7_isTrue:
+                    right_answer.append(6)
+                if question.content_8_isTrue:
+                    right_answer.append(7)
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
                 "description": question.description,
                 "nec": question.nec,
-                "content": content
+                "content": content,
+                "leave": leave,
+                "score": question.score,
+                "right_answer": right_answer
             }
             body.append(group)
         if type == "pack":
             question = Pack.objects.get(pack_id=id)
-
+            right_answer = []
+            if question.que_type == "exam":
+                if question.pack_ans_1 != "":
+                    right_answer.append(question.pack_ans_1)
+                if question.pack_ans_2 != "":
+                    right_answer.append(question.pack_ans_2)
+                if question.pack_ans_3 != "":
+                    right_answer.append(question.pack_ans_3)
+                if question.pack_ans_4 != "":
+                    right_answer.append(question.pack_ans_4)
+                if question.pack_ans_5 != "":
+                    right_answer.append(question.pack_ans_5)
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
                 "description": question.description,
                 "nec": question.nec,
-
+                "score": question.score,
+                "right_answer": right_answer
             }
             body.append(group)
         if type == "rate":
