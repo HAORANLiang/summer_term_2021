@@ -43,6 +43,7 @@ class Result(models.Model):
     result_id = models.AutoField(primary_key=True)
     list_id = models.IntegerField()
     user_id = models.IntegerField(blank=True, null=True)
+    submit_time = models.DateTimeField(null=True)
 
 
 class Result_build(models.Model):

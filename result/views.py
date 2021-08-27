@@ -10,6 +10,7 @@ import json
 from result.models import *
 from question.models import *
 from list.models import *
+from owner.models import *
 import xlwt
 from io import BytesIO
 
@@ -18,6 +19,7 @@ from io import BytesIO
 def save_result(request):
     data = json.loads(request.body)
     result = Result()
+    result.submit_time = datetime.datetime.now()
     result.list_id = data.get("id")
     list_id = int(data.get("id"))
     the_list = List.objects.get(list_id=list_id)
@@ -130,7 +132,8 @@ def save_result(request):
                 result_build.que_id = rate_ans.rate_id
                 result_build.save()
     ret_data = {
-        'message': "submit success"
+        'message': "submit success",
+        'result_id': result.result_id
     }
     return JsonResponse(ret_data, safe=False)
 
@@ -323,7 +326,9 @@ def to_excel(request):
     w = ws.add_sheet('sheet1')  # 新建sheet（sheet的名称为"sheet1"）
     # 写入表头
     builds = Que_build.objects.filter(list_id=list_id).order_by("que_no")
-    i = 1
+    w.write(0, 0, "用户名")
+    w.write(0, 1,  "创建时间")
+    i = 2
     for build in builds:
         name = ""
         question = ""
@@ -342,7 +347,14 @@ def to_excel(request):
     results = Result.objects.filter(list_id=list_id)
     excel_row = 1
     for result in results:
-        for j in range(1, i+1):
+        user = User.objects.filter(user_id=result.user_id)
+        if user.exists():
+            user = User.objects.get(user_id=result.user_id)
+            w.write(excel_row, 0, user.name)
+        else:
+            w.write(excel_row, 0, "null")
+        w.write(excel_row, 1, result.submit_time)
+        for j in range(2, i+1):
             res_build = Result_build.objects.filter(result_id=result.result_id,que_no=j)
             name = ""
             content = ""
@@ -390,3 +402,6 @@ def to_excel(request):
     output.seek(0)
     response.write(output.getvalue())
     return response
+
+
+#def check_ans()
