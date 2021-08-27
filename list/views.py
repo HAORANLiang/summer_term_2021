@@ -95,6 +95,7 @@ def add_single(single):
     contents = single.get("content")
     new_single.content_num = len(contents)
     new_single.correct_id = single.get("correct_id")
+    new_single.score = single.get("score")
     if new_single.content_num > 0:
         new_single.content_1 = contents[0]
     if new_single.content_num > 1:
@@ -111,8 +112,52 @@ def add_single(single):
         new_single.content_7 = contents[6]
     if new_single.content_num > 7:
         new_single.content_8 = contents[7]
+    right_answer = single.get("right_answer")
+    add_right_choice(new_single, right_answer)
+    leave = single.get("leave")
+    add_leave(new_single, leave)
     new_single.save()
     return new_single.single_id
+
+
+def add_right_choice(que, right_answer):
+    for each_ans in right_answer:
+        if each_ans == 0:
+            que.content_1_isTrue = True
+        elif each_ans == 1:
+            que.content_2_isTrue = True
+        elif each_ans == 2:
+            que.content_3_isTrue = True
+        elif each_ans == 3:
+            que.content_4_isTrue = True
+        elif each_ans == 4:
+            que.content_5_isTrue = True
+        elif each_ans == 5:
+            que.content_6_isTrue = True
+        elif each_ans == 6:
+            que.content_7_isTrue = True
+        elif each_ans == 7:
+            que.content_8_isTrue = True
+
+
+def add_leave(que, leave):
+    num = len(leave)
+    if num > 0:
+        que.content_1_leave = int(leave[0])
+    elif num > 1:
+        que.content_2_leave = int(leave[1])
+    elif num > 2:
+        que.content_3_leave = int(leave[2])
+    elif num > 3:
+        que.content_4_leave = int(leave[3])
+    elif num > 4:
+        que.content_5_leave = int(leave[4])
+    elif num > 5:
+        que.content_6_leave = int(leave[5])
+    elif num > 6:
+        que.content_7_leave = int(leave[6])
+    elif num > 7:
+        que.content_8_leave = int(leave[7])
 
 
 def add_multi(multi):
@@ -120,6 +165,7 @@ def add_multi(multi):
     new_multi.nec = multi.get("nec")
     new_multi.title = multi.get("title")
     new_multi.description = multi.get("description")
+    new_multi.score = multi.get("score")
     contents = multi.get("content")
     new_multi.content_num = len(contents)
     if new_multi.content_num > 0:
@@ -138,6 +184,10 @@ def add_multi(multi):
         new_multi.content_7 = contents[6]
     if new_multi.content_num > 7:
         new_multi.content_8 = contents[7]
+    right_answer = multi.get("right_answer")
+    add_right_choice(new_multi, right_answer)
+    leave = multi.get("leave")
+    add_leave(new_multi, leave)
     new_multi.save()
     return new_multi.multi_id
 
@@ -147,8 +197,21 @@ def add_pack(pack):
     new_pack.nec = pack.get("nec")
     new_pack.title = pack.get("title")
     new_pack.description = pack.get("description")
+    new_pack.score = pack.get("score")
     new_pack.pack_num = get_blank_num(new_pack.title)
+    right_answer = pack.get("right_answer")
     new_pack.save()
+    num = pack.pack_num
+    if num > 0:
+        pack.pack_ans_1 = right_answer[0]
+    elif num > 1:
+        pack.pack_ans_2 = right_answer[1]
+    elif num > 2:
+        pack.pack_ans_3 = right_answer[2]
+    elif num > 3:
+        pack.pack_ans_4 = right_answer[3]
+    elif num > 4:
+        pack.pack_ans_5 = right_answer[4]
     return new_pack.pack_id
 
 
