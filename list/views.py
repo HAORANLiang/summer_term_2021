@@ -31,7 +31,7 @@ def add_list(request):
     new_list.code = generate_code()
     new_list.save()
     for que in body:
-        que_qualify(new_list.list_id, que)
+        que_qualify(new_list.list_id, que, new_list.list_type)
     ret_data = {
         "list_id": new_list.list_id
     }
@@ -74,7 +74,7 @@ def delete_rate(rate_id):
     Rate.objects.filter(rate_id=rate_id).delete()
 
 
-def que_qualify(list_id, que):
+def que_qualify(list_id, que, list_type):
     new_que_build = Que_build()
     new_que_build.list_id = list_id
     new_que_build.que_no = que.get("no")
@@ -86,11 +86,11 @@ def que_qualify(list_id, que):
         "rate": add_rate,
         "positionp": add_pack
     }
-    new_que_build.que_id = case.get(new_que_build.que_type)(list_id, que)
+    new_que_build.que_id = case.get(new_que_build.que_type)(list_id, que, list_type)
     new_que_build.save()
 
 
-def add_single(list_id, single):
+def add_single(list_id, single, list_type):
     new_single = Single()
     new_single.nec = single.get("nec")
     new_single.title = single.get("title")
@@ -99,6 +99,15 @@ def add_single(list_id, single):
     new_single.content_num = len(contents)
     new_single.correct_id = single.get("correct_id")
     new_single.score = single.get("score")
+    if list_type == "exam":
+        new_single.is_exam = True
+        new_single.is_apply = False
+    else:
+        new_single.is_exam = False
+        if list_type == "apply":
+            new_single.is_apply = True
+        else:
+            new_single.is_apply = False
     if new_single.content_num > 0:
         new_single.content_1 = contents[0]
     if new_single.content_num > 1:
@@ -197,13 +206,22 @@ def add_leave(que, leave):
         que.content_8_leave = int(leave[7])
 
 
-def add_multi(list_id, multi):
+def add_multi(list_id, multi, list_type):
     new_multi = Multi()
     new_multi.nec = multi.get("nec")
     new_multi.title = multi.get("title")
     new_multi.description = multi.get("description")
     new_multi.score = multi.get("score")
     contents = multi.get("content")
+    if list_type == "exam":
+        new_multi.is_exam = True
+        new_multi.is_apply = False
+    else:
+        new_multi.is_exam = False
+        if list_type == "apply":
+            new_multi.is_apply = True
+        else:
+            new_multi.is_apply = False
     new_multi.content_num = len(contents)
     if new_multi.content_num > 0:
         new_multi.content_1 = contents[0]
@@ -233,7 +251,7 @@ def add_multi(list_id, multi):
     return new_multi.multi_id
 
 
-def add_pack(list_id, pack):
+def add_pack(list_id, pack, list_type):
     new_pack = Pack()
     new_pack.nec = pack.get("nec")
     new_pack.title = pack.get("title")
@@ -241,6 +259,15 @@ def add_pack(list_id, pack):
     new_pack.score = pack.get("score")
     new_pack.pack_num = get_blank_num(new_pack.title)
     right_answer = pack.get("right_answer")
+    if list_type == "exam":
+        new_pack.is_exam = True
+        new_pack.is_apply = False
+    else:
+        new_pack.is_exam = False
+        if list_type == "apply":
+            new_pack.is_apply = True
+        else:
+            new_pack.is_apply = False
     num = len(right_answer)
     if num > 0:
         new_pack.pack_ans_1 = right_answer[0]
@@ -260,11 +287,20 @@ def add_pack(list_id, pack):
     return new_pack.pack_id
 
 
-def add_rate(list_id, rate):
+def add_rate(list_id, rate, list_type):
     new_rate = Rate()
     new_rate.nec = rate.get("nec")
     new_rate.title = rate.get("title")
     new_rate.description = rate.get("description")
+    if list_type == "exam":
+        new_rate.is_exam = True
+        new_rate.is_apply = False
+    else:
+        new_rate.is_exam = False
+        if list_type == "apply":
+            new_rate.is_apply = True
+        else:
+            new_rate.is_apply = False
     new_rate.save()
     pre = rate.get("pre")
     if pre != {}:
@@ -456,7 +492,9 @@ def quest(request):
                 "leave": leave,
                 "score": question.score,
                 "right_answer": right_answer,
-                "pre": pre
+                "pre": pre,
+                "isExam": question.is_exam,
+                "isApply": question.is_apply
             }
             body.append(group)
         if type == "multi":
@@ -546,7 +584,9 @@ def quest(request):
                 "leave": leave,
                 "score": question.score,
                 "right_answer": right_answer,
-                "pre": pre
+                "pre": pre,
+                "isExam": question.is_exam,
+                "isApply": question.is_apply
             }
             body.append(group)
         if type == "pack" or type == "positionp":
@@ -598,7 +638,9 @@ def quest(request):
                 "nec": question.nec,
                 "score": question.score,
                 "right_answer": right_answer,
-                "pre": pre
+                "pre": pre,
+                "isExam": question.is_exam,
+                "isApply": question.is_apply
             }
             body.append(group)
         if type == "rate":
@@ -631,7 +673,9 @@ def quest(request):
                 "title": question.title,
                 "description": question.description,
                 "nec": question.nec,
-                "pre": pre
+                "pre": pre,
+                "isExam": question.is_exam,
+                "isApply": question.is_apply
             }
             body.append(group)
     if list.end_time is None:

@@ -32,6 +32,8 @@ class Single(models.Model):
     content_8_isTrue = models.BooleanField(null=True)
     content_8_leave = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
+    is_apply = models.BooleanField()
+    is_exam = models.BooleanField()
 
 
 class Multi(models.Model):
@@ -65,6 +67,8 @@ class Multi(models.Model):
     content_8_isTrue = models.BooleanField(null=True)
     content_9_leave = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
+    is_apply = models.BooleanField()
+    is_exam = models.BooleanField()
 
 
 class Pack(models.Model):
@@ -80,6 +84,8 @@ class Pack(models.Model):
     pack_ans_4 = models.CharField(max_length=128, null=True)
     pack_ans_5 = models.CharField(max_length=128, null=True)
     score = models.IntegerField(null=True)
+    is_apply = models.BooleanField()
+    is_exam = models.BooleanField()
 
 
 class Rate(models.Model):
@@ -88,6 +94,8 @@ class Rate(models.Model):
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=128, null=True)
+    is_apply = models.BooleanField()
+    is_exam = models.BooleanField()
 
 
 class Sequence(models.Model):
