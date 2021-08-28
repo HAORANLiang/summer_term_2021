@@ -67,7 +67,7 @@ def save_result(request):
                 result_build.save()
             if type == "multi":
                 multi_ans = Multi_ans()
-
+    
                 ans = answer.get("content")
                 multi_ans.num =len(ans)
                 if multi_ans.num>7:
@@ -86,7 +86,7 @@ def save_result(request):
                     multi_ans.ans2 = ans[1]
                 if multi_ans.num>0:
                     multi_ans.ans1 = ans[0]
-
+    
                 multi_ans.save()
                 result_build = Result_build()
                 result_build.list_id = result.list_id
@@ -97,10 +97,10 @@ def save_result(request):
                 result_build.save()
             if type == "pack":
                 pack_ans = Pack_ans()
-
+    
                 ans = answer.get("content")
                 pack_ans.num = len(ans)
-
+    
                 if pack_ans.num > 4:
                     pack_ans.ans5 = ans[4]
                 if pack_ans.num > 3:
@@ -111,7 +111,7 @@ def save_result(request):
                     pack_ans.ans2 = ans[1]
                 if pack_ans.num > 0:
                     pack_ans.ans1 = ans[0]
-
+    
                 pack_ans.save()
                 result_build = Result_build()
                 result_build.list_id = result.list_id
@@ -122,7 +122,7 @@ def save_result(request):
                 result_build.save()
             if type == "rate":
                 rate_ans = Rate_ans()
-
+    
                 rate_ans.ans = answer.get("content")
                 rate_ans.save()
                 result_build = Result_build()
@@ -286,7 +286,7 @@ def statistic(request):
             que.append(tmp_que)
         if type == "pack":
             question = Pack.objects.get(pack_id=que_id)
-
+    
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
@@ -294,7 +294,7 @@ def statistic(request):
                 'type': type,
                 'all': num,
                 'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
-
+    
             }
             que.append(tmp_que)
     ret_data = {
@@ -574,4 +574,27 @@ def check_ans(request):
     return JsonResponse(ret_data)
 
 
-
+def time_line(request):
+    list_id = request.GET.get("list_id")
+    date_dic = {}
+    today = datetime.datetime.now().date()
+    create_day = List.objects.get(list_id=list_id).create_time.date()
+    if today - create_day > datetime.timedelta(days=7):
+        first_day = today - datetime.timedelta(days=7)
+    else:
+        first_day = create_day
+    while first_day <= today:
+        # print(first_day.strftime('%Y-%m-%d'))
+        """
+        if Result.objects.filter(submit_time__range=[first_day, first_day + datetime.timedelta(days=1)]) is not None:
+        """
+        # print(List.objects.filter(create_time__range=[first_day, first_day + datetime.timedelta(days=1)]))
+        date_dic[first_day.strftime('%Y-%m-%d')] = Result.objects.filter(
+            Q(submit_time__range=[first_day, first_day + datetime.timedelta(days=1)]) &
+            Q(list_id=list_id)
+        ).count()
+        first_day += datetime.timedelta(days=1)
+    ret_data = {
+        "date_dic": date_dic
+    }
+    return JsonResponse(ret_data)
