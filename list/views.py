@@ -133,10 +133,7 @@ def add_pre(que, pre, que_id, list_id):
         new_sequence = Sequence()
         new_sequence.list_id = list_id
         new_sequence.que_id = que_id
-        new_sequence.pre_id = Que_build.objects.get(
-            Q(list_id=list_id) &
-            Q(que_no=int(each_key))
-        ).que_id
+        new_sequence.pre_id = int(each_key)
         content = pre[each_key]
         for each_content in content:
             if each_content == 0:
@@ -428,6 +425,27 @@ def quest(request):
                 if question.content_8_isTrue:
                     right_answer.append(7)
             pre = {}
+            the_sequence = Sequence.objects.filter(que_id=question.single_id).order_by('pre_id')
+            if the_sequence is not None:
+                for each_sequence in the_sequence:
+                    content = []
+                    if each_sequence.pre_content_1:
+                        content.append(0)
+                    if each_sequence.pre_content_2:
+                        content.append(1)
+                    if each_sequence.pre_content_3:
+                        content.append(2)
+                    if each_sequence.pre_content_4:
+                        content.append(3)
+                    if each_sequence.pre_content_5:
+                        content.append(4)
+                    if each_sequence.pre_content_6:
+                        content.append(5)
+                    if each_sequence.pre_content_7:
+                        content.append(6)
+                    if each_sequence.pre_content_8:
+                        content.append(7)
+                    pre[each_sequence.pre_id] = content
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
@@ -437,7 +455,8 @@ def quest(request):
                 "content": content,
                 "leave": leave,
                 "score": question.score,
-                "right_answer": right_answer
+                "right_answer": right_answer,
+                "pre": pre
             }
             body.append(group)
         if type == "multi":
@@ -495,6 +514,28 @@ def quest(request):
                     right_answer.append(6)
                 if question.content_8_isTrue:
                     right_answer.append(7)
+            pre = {}
+            the_sequence = Sequence.objects.filter(que_id=question.multi_id).order_by('pre_id')
+            if the_sequence is not None:
+                for each_sequence in the_sequence:
+                    content = []
+                    if each_sequence.pre_content_1:
+                        content.append(0)
+                    if each_sequence.pre_content_2:
+                        content.append(1)
+                    if each_sequence.pre_content_3:
+                        content.append(2)
+                    if each_sequence.pre_content_4:
+                        content.append(3)
+                    if each_sequence.pre_content_5:
+                        content.append(4)
+                    if each_sequence.pre_content_6:
+                        content.append(5)
+                    if each_sequence.pre_content_7:
+                        content.append(6)
+                    if each_sequence.pre_content_8:
+                        content.append(7)
+                    pre[each_sequence.pre_id] = content
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
@@ -504,7 +545,8 @@ def quest(request):
                 "content": content,
                 "leave": leave,
                 "score": question.score,
-                "right_answer": right_answer
+                "right_answer": right_answer,
+                "pre": pre
             }
             body.append(group)
         if type == "pack" or type == "positionp":
@@ -526,6 +568,28 @@ def quest(request):
                 if question.pack_ans_5 is not None:
                     # print(question.pack_ans_5)
                     right_answer.append(question.pack_ans_5)
+            pre = {}
+            the_sequence = Sequence.objects.filter(que_id=question.pack_id).order_by('pre_id')
+            if the_sequence is not None:
+                for each_sequence in the_sequence:
+                    content = []
+                    if each_sequence.pre_content_1:
+                        content.append(0)
+                    if each_sequence.pre_content_2:
+                        content.append(1)
+                    if each_sequence.pre_content_3:
+                        content.append(2)
+                    if each_sequence.pre_content_4:
+                        content.append(3)
+                    if each_sequence.pre_content_5:
+                        content.append(4)
+                    if each_sequence.pre_content_6:
+                        content.append(5)
+                    if each_sequence.pre_content_7:
+                        content.append(6)
+                    if each_sequence.pre_content_8:
+                        content.append(7)
+                    pre[each_sequence.pre_id] = content
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
@@ -533,19 +597,41 @@ def quest(request):
                 "description": question.description,
                 "nec": question.nec,
                 "score": question.score,
-                "right_answer": right_answer
+                "right_answer": right_answer,
+                "pre": pre
             }
             body.append(group)
         if type == "rate":
             question = Rate.objects.get(rate_id=id)
-
+            pre = {}
+            the_sequence = Sequence.objects.filter(que_id=question.rate_id).order_by('pre_id')
+            if the_sequence is not None:
+                for each_sequence in the_sequence:
+                    content = []
+                    if each_sequence.pre_content_1:
+                        content.append(0)
+                    if each_sequence.pre_content_2:
+                        content.append(1)
+                    if each_sequence.pre_content_3:
+                        content.append(2)
+                    if each_sequence.pre_content_4:
+                        content.append(3)
+                    if each_sequence.pre_content_5:
+                        content.append(4)
+                    if each_sequence.pre_content_6:
+                        content.append(5)
+                    if each_sequence.pre_content_7:
+                        content.append(6)
+                    if each_sequence.pre_content_8:
+                        content.append(7)
+                    pre[each_sequence.pre_id] = content
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
                 "title": question.title,
                 "description": question.description,
                 "nec": question.nec,
-
+                "pre": pre
             }
             body.append(group)
     if list.end_time is None:
