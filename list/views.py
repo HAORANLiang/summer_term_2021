@@ -247,13 +247,13 @@ def add_pack(list_id, pack):
     num = len(right_answer)
     if num > 0:
         new_pack.pack_ans_1 = right_answer[0]
-    elif num > 1:
+    if num > 1:
         new_pack.pack_ans_2 = right_answer[1]
-    elif num > 2:
+    if num > 2:
         new_pack.pack_ans_3 = right_answer[2]
-    elif num > 3:
+    if num > 3:
         new_pack.pack_ans_4 = right_answer[3]
-    elif num > 4:
+    if num > 4:
         new_pack.pack_ans_5 = right_answer[4]
     new_pack.save()
     pre = pack.get("pre")
@@ -427,6 +427,7 @@ def quest(request):
                     right_answer.append(6)
                 if question.content_8_isTrue:
                     right_answer.append(7)
+            pre = {}
             group = {
                 "no": tmp.que_no,
                 "type": tmp.que_type,
