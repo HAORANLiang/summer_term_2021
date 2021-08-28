@@ -51,7 +51,8 @@ def delete_type_qualify(que_type, que_id):
         "single": delete_single,
         "multi": delete_multi,
         "pack": delete_pack,
-        "rate": delete_rate
+        "rate": delete_rate,
+        "position": delete_pack
     }
     case.get(que_type)(que_id)
 
@@ -81,7 +82,8 @@ def que_qualify(list_id, que):
         "single": add_single,
         "multi": add_multi,
         "pack": add_pack,
-        "rate": add_rate
+        "rate": add_rate,
+        "position": add_pack
     }
     new_que_build.que_id = case.get(new_que_build.que_type)(que)
     new_que_build.save()
