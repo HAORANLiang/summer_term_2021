@@ -44,6 +44,7 @@ class Result(models.Model):
     list_id = models.IntegerField()
     user_id = models.IntegerField(blank=True, null=True)
     submit_time = models.DateTimeField(null=True)
+    score = models.IntegerField()
 
 
 class Result_build(models.Model):

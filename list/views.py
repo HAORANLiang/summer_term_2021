@@ -384,7 +384,6 @@ def quest(request):
                 "title": question.title,
                 "description": question.description,
                 "nec": question.nec,
-
             }
             body.append(group)
         if type == "rate":

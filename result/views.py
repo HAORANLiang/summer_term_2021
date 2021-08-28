@@ -354,7 +354,7 @@ def to_excel(request):
         else:
             w.write(excel_row, 0, "null")
         w.write(excel_row, 1, result.submit_time)
-        for j in range(2, i+1):
+        for j in range(1, i+1):
             res_build = Result_build.objects.filter(result_id=result.result_id,que_no=j)
             name = ""
             content = ""
@@ -393,7 +393,7 @@ def to_excel(request):
                 if res_build.que_type == "rate":
                     question = Rate_ans.objects.get(rate_id=res_build.que_id)
                     content += str(question.ans)
-                w.write(excel_row, j, content)
+                w.write(excel_row, j+1, content)
         excel_row += 1
     # 写出到IO
     output = BytesIO()
@@ -404,4 +404,24 @@ def to_excel(request):
     return response
 
 
-#def check_ans()
+def check_ans(request):
+    result_id = request.GET.get("result_id")
+    result = Result.objects.get(result_id=result_id)
+    list_id = result.list_id
+    list = List.objects.get(list_id=list_id)
+    score = 0
+    answer = []
+    res_builds = Result_build.objects.filter(result_id=result_id).order_by("que_no")
+    for res_build in res_builds:
+        build = Que_build.objects.get(list_id=res_build.list_id,que_no=res_build.que_no)
+        if res_build.que_type == "single":
+            res = Single_ans.objects.get(single_id=res_build.que_id)
+            question = Single.objects.get(single_id=build.que_id)
+            tmp = {
+                "content": [res.ans]
+            }
+            answer.append(tmp)
+
+
+
+
