@@ -404,4 +404,27 @@ def to_excel(request):
     return response
 
 
-#def check_ans()
+def time_line(request):
+    list_id = request.GET.get("list_id")
+    date_dic = {}
+    today = datetime.datetime.now().date()
+    create_day = List.objects.get(list_id=list_id).create_time.date()
+    if today - create_day > datetime.timedelta(days=7):
+        first_day = today - datetime.timedelta(days=7)
+    else:
+        first_day = create_day
+    while first_day <= today:
+        # print(first_day.strftime('%Y-%m-%d'))
+        """
+        if Result.objects.filter(submit_time__range=[first_day, first_day + datetime.timedelta(days=1)]) is not None:
+        """
+        # print(List.objects.filter(create_time__range=[first_day, first_day + datetime.timedelta(days=1)]))
+        date_dic[first_day.strftime('%Y-%m-%d')] = Result.objects.filter(
+            Q(submit_time__range=[first_day, first_day + datetime.timedelta(days=1)]) &
+            Q(list_id=list_id)
+        ).count()
+        first_day += datetime.timedelta(days=1)
+    ret_data = {
+        "date_dic": date_dic
+    }
+    return JsonResponse(ret_data)
