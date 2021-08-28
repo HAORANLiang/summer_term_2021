@@ -16,6 +16,7 @@ def add_list(request):
     if not list_id == -1:
         new_list = List.objects.get(list_id=list_id)
         delete_association(list_id)
+        Sequence.objects.filter(list_id=list_id).delete()
     else:
         new_list.state = "未发布"
         new_list.only_once = False
@@ -52,7 +53,7 @@ def delete_type_qualify(que_type, que_id):
         "multi": delete_multi,
         "pack": delete_pack,
         "rate": delete_rate,
-        "position": delete_pack
+        "positionp": delete_pack
     }
     case.get(que_type)(que_id)
 
@@ -83,13 +84,13 @@ def que_qualify(list_id, que):
         "multi": add_multi,
         "pack": add_pack,
         "rate": add_rate,
-        "position": add_pack
+        "positionp": add_pack
     }
-    new_que_build.que_id = case.get(new_que_build.que_type)(que)
+    new_que_build.que_id = case.get(new_que_build.que_type)(list_id, que)
     new_que_build.save()
 
 
-def add_single(single):
+def add_single(list_id, single):
     new_single = Single()
     new_single.nec = single.get("nec")
     new_single.title = single.get("title")
@@ -119,7 +120,42 @@ def add_single(single):
     leave = single.get("leave")
     add_leave(new_single, leave)
     new_single.save()
+    pre = single.get("pre")
+    if pre != {}:
+        add_pre(new_single, pre, new_single.single_id, list_id)
+    new_single.save()
     return new_single.single_id
+
+
+def add_pre(que, pre, que_id, list_id):
+    for each_key in pre:
+        # print(int(each_key))
+        new_sequence = Sequence()
+        new_sequence.list_id = list_id
+        new_sequence.que_id = que_id
+        new_sequence.pre_id = Que_build.objects.get(
+            Q(list_id=list_id) &
+            Q(que_no=int(each_key))
+        ).que_id
+        content = pre[each_key]
+        for each_content in content:
+            if each_content == 0:
+                new_sequence.pre_content_1 = True
+            if each_content == 1:
+                new_sequence.pre_content_2 = True
+            if each_content == 2:
+                new_sequence.pre_content_3 = True
+            if each_content == 3:
+                new_sequence.pre_content_4 = True
+            if each_content == 4:
+                new_sequence.pre_content_5 = True
+            if each_content == 5:
+                new_sequence.pre_content_6 = True
+            if each_content == 6:
+                new_sequence.pre_content_7 = True
+            if each_content == 7:
+                new_sequence.pre_content_8 = True
+        new_sequence.save()
 
 
 def add_right_choice(que, right_answer):
@@ -164,7 +200,7 @@ def add_leave(que, leave):
         que.content_8_leave = int(leave[7])
 
 
-def add_multi(multi):
+def add_multi(list_id, multi):
     new_multi = Multi()
     new_multi.nec = multi.get("nec")
     new_multi.title = multi.get("title")
@@ -193,10 +229,14 @@ def add_multi(multi):
     leave = multi.get("leave")
     add_leave(new_multi, leave)
     new_multi.save()
+    pre = multi.get("pre")
+    if pre != {}:
+        add_pre(new_multi, pre, new_multi.multi_id, list_id)
+    new_multi.save()
     return new_multi.multi_id
 
 
-def add_pack(pack):
+def add_pack(list_id, pack):
     new_pack = Pack()
     new_pack.nec = pack.get("nec")
     new_pack.title = pack.get("title")
@@ -216,14 +256,22 @@ def add_pack(pack):
     elif num > 4:
         pack.pack_ans_5 = right_answer[4]
     new_pack.save()
+    pre = pack.get("pre")
+    if pre != {}:
+        add_pre(new_pack, pre, new_pack.pack_id, list_id)
+    new_pack.save()
     return new_pack.pack_id
 
 
-def add_rate(rate):
+def add_rate(list_id, rate):
     new_rate = Rate()
     new_rate.nec = rate.get("nec")
     new_rate.title = rate.get("title")
     new_rate.description = rate.get("description")
+    new_rate.save()
+    pre = rate.get("pre")
+    if pre != {}:
+        add_pre(new_rate, pre, new_rate.rate_id, list_id)
     new_rate.save()
     return new_rate.rate_id
 

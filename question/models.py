@@ -88,3 +88,18 @@ class Rate(models.Model):
     nec = models.BooleanField()
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=128, null=True)
+
+
+class Sequence(models.Model):
+    sequence_id = models.AutoField(primary_key=True)
+    list_id = models.IntegerField(null=True)
+    que_id = models.IntegerField()
+    pre_id = models.IntegerField()
+    pre_content_1 = models.BooleanField(null=True)
+    pre_content_2 = models.BooleanField(null=True)
+    pre_content_3 = models.BooleanField(null=True)
+    pre_content_4 = models.BooleanField(null=True)
+    pre_content_5 = models.BooleanField(null=True)
+    pre_content_6 = models.BooleanField(null=True)
+    pre_content_7 = models.BooleanField(null=True)
+    pre_content_8 = models.BooleanField(null=True)
