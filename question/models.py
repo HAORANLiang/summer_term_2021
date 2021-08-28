@@ -65,7 +65,7 @@ class Multi(models.Model):
     content_7_leave = models.IntegerField(null=True)
     content_8 = models.CharField(max_length=128)
     content_8_isTrue = models.BooleanField(null=True)
-    content_9_leave = models.IntegerField(null=True)
+    content_8_leave = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
     is_apply = models.BooleanField()
     is_exam = models.BooleanField()
