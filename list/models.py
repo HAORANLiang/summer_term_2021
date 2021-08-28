@@ -19,6 +19,7 @@ class List(models.Model):
     need_login = models.BooleanField()
     list_num = models.IntegerField()
     code = models.CharField(max_length=64)
+    show_result = models.BooleanField(null=True)
 
 
 class Que_build(models.Model):
