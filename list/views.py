@@ -99,15 +99,8 @@ def add_single(list_id, single, list_type):
     new_single.content_num = len(contents)
     new_single.correct_id = single.get("correct_id")
     new_single.score = single.get("score")
-    if list_type == "exam":
-        new_single.is_exam = True
-        new_single.is_apply = False
-    else:
-        new_single.is_exam = False
-        if list_type == "apply":
-            new_single.is_apply = True
-        else:
-            new_single.is_apply = False
+    new_single.is_exam = single.get("isExam")
+    new_single.is_apply = single.get("isApply")
     if new_single.content_num > 0:
         new_single.content_1 = contents[0]
     if new_single.content_num > 1:
@@ -213,15 +206,8 @@ def add_multi(list_id, multi, list_type):
     new_multi.description = multi.get("description")
     new_multi.score = multi.get("score")
     contents = multi.get("content")
-    if list_type == "exam":
-        new_multi.is_exam = True
-        new_multi.is_apply = False
-    else:
-        new_multi.is_exam = False
-        if list_type == "apply":
-            new_multi.is_apply = True
-        else:
-            new_multi.is_apply = False
+    new_multi.is_exam = multi.get("isExam")
+    new_multi.is_apply = multi.get("isApply")
     new_multi.content_num = len(contents)
     if new_multi.content_num > 0:
         new_multi.content_1 = contents[0]
@@ -259,15 +245,8 @@ def add_pack(list_id, pack, list_type):
     new_pack.score = pack.get("score")
     new_pack.pack_num = get_blank_num(new_pack.title)
     right_answer = pack.get("right_answer")
-    if list_type == "exam":
-        new_pack.is_exam = True
-        new_pack.is_apply = False
-    else:
-        new_pack.is_exam = False
-        if list_type == "apply":
-            new_pack.is_apply = True
-        else:
-            new_pack.is_apply = False
+    new_pack.is_exam = pack.get("isExam")
+    new_pack.is_apply = pack.get("isApply")
     num = len(right_answer)
     if num > 0:
         new_pack.pack_ans_1 = right_answer[0]
@@ -292,15 +271,8 @@ def add_rate(list_id, rate, list_type):
     new_rate.nec = rate.get("nec")
     new_rate.title = rate.get("title")
     new_rate.description = rate.get("description")
-    if list_type == "exam":
-        new_rate.is_exam = True
-        new_rate.is_apply = False
-    else:
-        new_rate.is_exam = False
-        if list_type == "apply":
-            new_rate.is_apply = True
-        else:
-            new_rate.is_apply = False
+    new_rate.is_exam = rate.get("isExam")
+    new_rate.is_apply = rate.get("isApply")
     new_rate.save()
     pre = rate.get("pre")
     if pre != {}:
