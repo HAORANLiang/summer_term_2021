@@ -190,19 +190,19 @@ def add_leave(que, leave):
     num = len(leave)
     if num > 0:
         que.content_1_leave = int(leave[0])
-    elif num > 1:
+    if num > 1:
         que.content_2_leave = int(leave[1])
-    elif num > 2:
+    if num > 2:
         que.content_3_leave = int(leave[2])
-    elif num > 3:
+    if num > 3:
         que.content_4_leave = int(leave[3])
-    elif num > 4:
+    if num > 4:
         que.content_5_leave = int(leave[4])
-    elif num > 5:
+    if num > 5:
         que.content_6_leave = int(leave[5])
-    elif num > 6:
+    if num > 6:
         que.content_7_leave = int(leave[6])
-    elif num > 7:
+    if num > 7:
         que.content_8_leave = int(leave[7])
 
 
@@ -426,21 +426,21 @@ def quest(request):
                 content.append(question.content_8)
             leave = []
             if list.list_type == "apply":
-                if question.content_1_leave != "":
+                if question.content_1_leave is not None:
                     leave.append(question.content_1_leave)
-                if question.content_2_leave != "":
+                if question.content_2_leave is not None:
                     leave.append(question.content_2_leave)
-                if question.content_3_leave != "":
+                if question.content_3_leave is not None:
                     leave.append(question.content_3_leave)
-                if question.content_4_leave != "":
+                if question.content_4_leave is not None:
                     leave.append(question.content_4_leave)
-                if question.content_5_leave != "":
+                if question.content_5_leave is not None:
                     leave.append(question.content_5_leave)
-                if question.content_6_leave != "":
+                if question.content_6_leave is not None:
                     leave.append(question.content_6_leave)
-                if question.content_7_leave != "":
+                if question.content_7_leave is not None:
                     leave.append(question.content_7_leave)
-                if question.content_8_leave != "":
+                if question.content_8_leave is not None:
                     leave.append(question.content_8_leave)
             right_answer = []
             if list.list_type == "exam":
@@ -518,21 +518,21 @@ def quest(request):
                 content.append(question.content_8)
             leave = []
             if list.list_type == "apply":
-                if question.content_1_leave != "":
+                if question.content_1_leave is not None:
                     leave.append(question.content_1_leave)
-                if question.content_2_leave != "":
+                if question.content_2_leave is not None:
                     leave.append(question.content_2_leave)
-                if question.content_3_leave != "":
+                if question.content_3_leave is not None:
                     leave.append(question.content_3_leave)
-                if question.content_4_leave != "":
+                if question.content_4_leave is not None:
                     leave.append(question.content_4_leave)
-                if question.content_5_leave != "":
+                if question.content_5_leave is not None:
                     leave.append(question.content_5_leave)
-                if question.content_6_leave != "":
+                if question.content_6_leave is not None:
                     leave.append(question.content_6_leave)
-                if question.content_7_leave != "":
+                if question.content_7_leave is not None:
                     leave.append(question.content_7_leave)
-                if question.content_8_leave != "":
+                if question.content_8_leave is not None:
                     leave.append(question.content_8_leave)
             right_answer = []
             if list.list_type == "exam":
