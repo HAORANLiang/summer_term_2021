@@ -244,17 +244,17 @@ def add_pack(list_id, pack):
     new_pack.score = pack.get("score")
     new_pack.pack_num = get_blank_num(new_pack.title)
     right_answer = pack.get("right_answer")
-    num = new_pack.pack_num
+    num = len(right_answer)
     if num > 0:
-        pack.pack_ans_1 = right_answer[0]
+        new_pack.pack_ans_1 = right_answer[0]
     elif num > 1:
-        pack.pack_ans_2 = right_answer[1]
+        new_pack.pack_ans_2 = right_answer[1]
     elif num > 2:
-        pack.pack_ans_3 = right_answer[2]
+        new_pack.pack_ans_3 = right_answer[2]
     elif num > 3:
-        pack.pack_ans_4 = right_answer[3]
+        new_pack.pack_ans_4 = right_answer[3]
     elif num > 4:
-        pack.pack_ans_5 = right_answer[4]
+        new_pack.pack_ans_5 = right_answer[4]
     new_pack.save()
     pre = pack.get("pre")
     if pre != {}:
@@ -286,7 +286,10 @@ def get_blank_num(string):
                 num += 1
         else:
             pre = False
-    return num
+    if num != 0:
+        return num
+    else:
+        return 1
 
 
 def recover(request):
@@ -657,7 +660,6 @@ def set_publish_info(request):
 
 
 def generate_code(randomlength=8):
-
     str = ''
     chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
     length = len(chars) - 1
@@ -687,11 +689,12 @@ def get_code(request):
     if list.code == "":
         list.code = generate_code()
         list.save()
-    code=list.code
+    code = list.code
     ret_data = {
         "old_code": code
     }
     return JsonResponse(ret_data)
+
 
 def verify_code(request):
     code = request.GET.get("code")
@@ -750,5 +753,3 @@ def code_quest(request):
     if data:
         request.GET = data
     return quest(request)
-
-
