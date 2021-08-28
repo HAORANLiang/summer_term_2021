@@ -506,7 +506,7 @@ def quest(request):
                 "right_answer": right_answer
             }
             body.append(group)
-        if type == "pack":
+        if type == "pack" or type == "positionp":
             question = Pack.objects.get(pack_id=id)
             right_answer = []
             if list.list_type == "exam":
