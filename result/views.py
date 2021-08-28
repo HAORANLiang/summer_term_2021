@@ -21,6 +21,7 @@ def save_result(request):
     result = Result()
     result.submit_time = datetime.datetime.now()
     result.list_id = data.get("id")
+    result.score = 0
     list_id = int(data.get("id"))
     the_list = List.objects.get(list_id=list_id)
     if the_list.state == "已发布" and the_list.end_time is not None:
@@ -410,6 +411,26 @@ def check_ans(request):
     list_id = result.list_id
     list = List.objects.get(list_id=list_id)
     score = 0
+    rank = 0
+    rightNum = 0
+    tot_score = 0
+    question_num = Que_build.objects.filter(list_id=list_id).count()
+    builds = Que_build.objects.filter(list_id=list_id)
+    for build in builds:
+        x = 0
+        if build.que_type == "single":
+            question = Single.objects.get(single_id=build.que_id)
+            if question.score is not None:
+                x=question.score
+        if build.que_type == "nulti":
+            question = Multi.objects.get(multi_id=build.que_id)
+            if question.score is not None:
+                x = question.score
+        if build.que_type == "pack":
+            question = Pack.objects.get(pack_id=build.que_id)
+            if question.score is not None:
+                x = question.score
+        tot_score += x
     answer = []
     res_builds = Result_build.objects.filter(result_id=result_id).order_by("que_no")
     for res_build in res_builds:
@@ -421,7 +442,136 @@ def check_ans(request):
                 "content": [res.ans]
             }
             answer.append(tmp)
-
+            ans = []
+            if question.content_1_isTrue == 1:
+                ans.append(0)
+            if question.content_2_isTrue == 1:
+                ans.append(1)
+            if question.content_3_isTrue == 1:
+                ans.append(2)
+            if question.content_4_isTrue == 1:
+                ans.append(3)
+            if question.content_5_isTrue == 1:
+                ans.append(4)
+            if question.content_6_isTrue == 1:
+                ans.append(5)
+            if question.content_7_isTrue == 1:
+                ans.append(6)
+            if question.content_8_isTrue == 1:
+                ans.append(7)
+            if len(ans)>0:
+                if ans[0] == int(res.ans):
+                    score += question.score
+                    rightNum += 1
+        if res_build.que_type == "multi":
+            res = Multi_ans.objects.get(multi_id=res_build.que_id)
+            question = Multi.objects.get(multi_id=build.que_id)
+            content = []
+            if res.ans1 is not None:
+                content.append(int(res.ans1))
+            if res.ans2 is not None:
+                content.append(int(res.ans2))
+            if res.ans3 is not None:
+                content.append(int(res.ans3))
+            if res.ans4 is not None:
+                content.append(int(res.ans4))
+            if res.ans5 is not None:
+                content.append(int(res.ans5))
+            if res.ans6 is not None:
+                content.append(int(res.ans6))
+            if res.ans7 is not None:
+                content.append(int(res.ans7))
+            if res.ans8 is not None:
+                content.append(int(res.ans8))
+            tmp = {
+                "content": content
+            }
+            answer.append(tmp)
+            ans = []
+            if question.content_1_isTrue == 1:
+                ans.append(0)
+            if question.content_2_isTrue == 1:
+                ans.append(1)
+            if question.content_3_isTrue == 1:
+                ans.append(2)
+            if question.content_4_isTrue == 1:
+                ans.append(3)
+            if question.content_5_isTrue == 1:
+                ans.append(4)
+            if question.content_6_isTrue == 1:
+                ans.append(5)
+            if question.content_7_isTrue == 1:
+                ans.append(6)
+            if question.content_8_isTrue == 1:
+                ans.append(7)
+            flag = 1
+            if len(ans) != len(content):
+                flag = 0
+            else:
+                for i in range(len(ans)):
+                    if ans[i] != content[i]:
+                        flag = 0
+            if flag == 1:
+                score += question.score
+                rightNum += 1
+        if res_build.que_type == "pack":
+            res = Pack_ans.objects.get(pack_id=res_build.que_id)
+            question = Pack.objects.get(pack_id=build.que_id)
+            content = []
+            if res.ans1 is not None:
+                content.append((res.ans1))
+            if res.ans2 is not None:
+                content.append((res.ans2))
+            if res.ans3 is not None:
+                content.append((res.ans3))
+            if res.ans4 is not None:
+                content.append((res.ans4))
+            if res.ans5 is not None:
+                content.append((res.ans5))
+            tmp = {
+                "content": content
+            }
+            answer.append(tmp)
+            ans = []
+            if question.pack_ans_1 is not None:
+                ans.append(question.pack_ans_1)
+            if question.pack_ans_2 is not None:
+                ans.append(question.pack_ans_2)
+            if question.pack_ans_3 is not None:
+                ans.append(question.pack_ans_3)
+            if question.pack_ans_4 is not None:
+                ans.append(question.pack_ans_4)
+            if question.pack_ans_5 is not None:
+                ans.append(question.pack_ans_5)
+            flag = 1
+            if len(ans) != len(content):
+                flag = 0
+            else:
+                for i in range(len(ans)):
+                    if ans[i] != content[i]:
+                        flag = 0
+            if flag == 1:
+                score += question.score
+                rightNum += 1
+    result.score = score
+    result.save()
+    group = Result.objects.filter(list_id=list_id).order_by("-score")
+    totalAnswerNum = Result.objects.filter(list_id=list_id).count()
+    i = 0
+    for x in group:
+        if x.result_id == result.result_id:
+            rank = i+1
+        i += 1
+    ret_data = {
+        "totalAnswerNum": totalAnswerNum,
+        "totalQueNum": question_num,
+        "totalScore": tot_score,
+        "score": score,
+        "rank": rank,
+        "rightNum": rightNum,
+        "answer": answer
+    }
+    return JsonResponse(ret_data)
 
 
 
