@@ -31,7 +31,7 @@ class Single(models.Model):
     content_8 = models.CharField(max_length=128)
     content_8_isTrue = models.BooleanField(null=True)
     content_8_leave = models.IntegerField(null=True)
-    score = models.FloatField(null=True)
+    score = models.IntegerField(null=True)
 
 
 class Multi(models.Model):
@@ -64,7 +64,7 @@ class Multi(models.Model):
     content_8 = models.CharField(max_length=128)
     content_8_isTrue = models.BooleanField(null=True)
     content_9_leave = models.IntegerField(null=True)
-    score = models.FloatField(null=True)
+    score = models.IntegerField(null=True)
 
 
 class Pack(models.Model):
@@ -79,7 +79,7 @@ class Pack(models.Model):
     pack_ans_3 = models.CharField(max_length=128, null=True)
     pack_ans_4 = models.CharField(max_length=128, null=True)
     pack_ans_5 = models.CharField(max_length=128, null=True)
-    score = models.FloatField(null=True)
+    score = models.IntegerField(null=True)
 
 
 class Rate(models.Model):
