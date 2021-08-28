@@ -65,6 +65,25 @@ def save_result(request):
                 result_build.que_type = type
                 result_build.que_id = single_ans.single_id
                 result_build.save()
+                single = Single.objects.get(single_id=que_build.que_id)
+                if single.is_apply:
+                    if single_ans.ans == 0:
+                        single.content_1_leave -= 1
+                    if single_ans.ans == 1:
+                        single.content_2_leave -= 1
+                    if single_ans.ans == 2:
+                        single.content_3_leave -= 1
+                    if single_ans.ans == 3:
+                        single.content_4_leave -= 1
+                    if single_ans.ans == 4:
+                        single.content_5_leave -= 1
+                    if single_ans.ans == 5:
+                        single.content_6_leave -= 1
+                    if single_ans.ans == 6:
+                        single.content_7_leave -= 1
+                    if single_ans.ans == 7:
+                        single.content_8_leave -= 1
+                    single.save()
             if type == "multi":
                 multi_ans = Multi_ans()
 
@@ -95,6 +114,26 @@ def save_result(request):
                 result_build.que_type = type
                 result_build.que_id = multi_ans.multi_id
                 result_build.save()
+                multi = Multi.objects.get(multi_id=que_build.que_id)
+                if multi.is_apply:
+                    for i in range(len(ans)):
+                        if ans[i] == 0:
+                            multi.content_1_leave -= 1
+                        if ans[i] == 1:
+                            multi.content_2_leave -= 1
+                        if ans[i] == 2:
+                            multi.content_3_leave -= 1
+                        if ans[i] == 3:
+                            multi.content_4_leave -= 1
+                        if ans[i] == 4:
+                            multi.content_5_leave -= 1
+                        if ans[i] == 5:
+                            multi.content_6_leave -= 1
+                        if ans[i] == 6:
+                            multi.content_7_leave -= 1
+                        if ans[i] == 7:
+                            multi.content_8_leave -= 1
+                    multi.save()
             if type == "pack":
                 pack_ans = Pack_ans()
 
