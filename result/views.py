@@ -376,7 +376,7 @@ def to_excel(request):
             question = Single.objects.get(single_id=build.que_id)
         if build.que_type == "multi":
             question = Multi.objects.get(multi_id=build.que_id)
-        if build.que_type == "pack":
+        if build.que_type == "pack" or build.que_type == "positionp":
             question = Pack.objects.get(pack_id=build.que_id)
         if build.que_type == "rate":
             question = Rate.objects.get(rate_id=build.que_id)
