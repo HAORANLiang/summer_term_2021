@@ -442,7 +442,7 @@ def to_excel(request):
                     for k in range(8):
                         if str(contents[k]) != "None":
                             content += option[contents[k]] + " "
-                if res_build.que_type == "pack":
+                if res_build.que_type == "pack" or res_build.que_type == "positionp":
                     question = Pack_ans.objects.get(pack_id=res_build.que_id)
                     contents = [
                         question.ans1,
