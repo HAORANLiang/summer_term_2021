@@ -134,7 +134,7 @@ def save_result(request):
                         if ans[i] == 7:
                             multi.content_8_leave -= 1
                     multi.save()
-            if type == "pack":
+            if type == "pack" or type == "positionp":
                 pack_ans = Pack_ans()
     
                 ans = answer.get("content")
