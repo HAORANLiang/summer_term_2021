@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.all_result_count),
     path('to_excel', views.to_excel),
     path('check_ans', views.check_ans),
-    path('time_line', views.time_line)
+    path('time_line', views.time_line),
+    path('apply_statistic', views.apply_statistic)
 ]
 

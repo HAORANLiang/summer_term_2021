@@ -393,16 +393,29 @@ def to_excel(request):
             w.write(excel_row, 0, user.name)
         else:
             w.write(excel_row, 0, "null")
-        w.write(excel_row, 1, result.submit_time)
+        w.write(excel_row, 1, result.submit_time.strftime('%Y-%m-%d %H:%M:%S'))
         for j in range(1, i+1):
             res_build = Result_build.objects.filter(result_id=result.result_id,que_no=j)
             name = ""
             content = ""
             if res_build.exists():
                 res_build = Result_build.objects.get(result_id=result.result_id, que_no=j)
+                que_build = Que_build.objects.get(list_id=list_id, que_no=j)
                 if res_build.que_type == "single":
                     question = Single_ans.objects.get(single_id=res_build.que_id)
-                    content += str(question.ans) + " "
+                    que = Single.objects.get(single_id=que_build.que_id)
+                    option = {
+                        0: que.content_1,
+                        1: que.content_2,
+                        2: que.content_3,
+                        3: que.content_4,
+                        4: que.content_5,
+                        5: que.content_6,
+                        6: que.content_7,
+                        7: que.content_8,
+                    }
+
+                    content += option[question.ans] + " "
                 if res_build.que_type == "multi":
                     question = Multi_ans.objects.get(multi_id=res_build.que_id)
                     contents = [
@@ -415,9 +428,20 @@ def to_excel(request):
                         question.ans7,
                         question.ans8,
                     ]
+                    que = Multi.objects.get(multi_id=que_build.que_id)
+                    option = {
+                        0: que.content_1,
+                        1: que.content_2,
+                        2: que.content_3,
+                        3: que.content_4,
+                        4: que.content_5,
+                        5: que.content_6,
+                        6: que.content_7,
+                        7: que.content_8,
+                    }
                     for i in range(8):
                         if str(contents[i]) != "None":
-                            content += str(contents[i]) + " "
+                            content += option[contents[i]] + " "
                 if res_build.que_type == "pack":
                     question = Pack_ans.objects.get(pack_id=res_build.que_id)
                     contents = [
@@ -645,6 +669,11 @@ def apply_statistic(request):
     results = Result.objects.filter(list_id=list_id)
     results_num = Result.objects.filter(list_id=list_id).count()
     que = []
+    pack = []
+    builds = Que_build.objects.filter(list_id=list_id, que_type="pack").order_by('que_no')
+    for build in builds:
+        ques = Pack.objects.get(pack_id=build.que_id)
+        pack.append(ques.title)
     builds = Que_build.objects.filter(list_id=list_id).order_by('que_no')
     for build in builds:
         que_id = build.que_id
@@ -655,6 +684,17 @@ def apply_statistic(request):
             question = Single.objects.get(single_id=que_id)
             rate = {}
             info = {}
+            x1 = []
+            x2 = []
+            x3 = []
+            x4 = []
+            x5 = []
+            x6 = []
+            x7 = []
+            x8 = []
+            dict = {
+                "1": x1,"2": x2,"3": x3,"4": x4,"5": x5,"6": x6,"7": x7,"8": x8
+            }
             x = [0, 0, 0, 0, 0, 0, 0, 0]
             for res_build in res_builds:
                 result_id = res_build.que_id
@@ -662,31 +702,48 @@ def apply_statistic(request):
                 for i in range(8):
                     if result.ans == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
 
             if question.content_1 != "":
                 tmp = {question.content_1: 0 if (num == 0) else int(float(x[0]) / num * 100)}
                 rate.update(tmp)
+                tmp = {1: x1}
+                info.update(tmp)
             if question.content_2 != "":
                 tmp = {question.content_2: 0 if (num == 0) else int(float(x[1]) / num * 100)}
                 rate.update(tmp)
+                tmp = {2: x2}
+                info.update(tmp)
             if question.content_3 != "":
                 tmp = {question.content_3: 0 if (num == 0) else int(float(x[2]) / num * 100)}
                 rate.update(tmp)
+                tmp = {3: x3}
+                info.update(tmp)
             if question.content_4 != "":
                 tmp = {question.content_4: 0 if (num == 0) else int(float(x[3]) / num * 100)}
                 rate.update(tmp)
+                tmp = {4: x4}
+                info.update(tmp)
             if question.content_5 != "":
                 tmp = {question.content_5: 0 if (num == 0) else int(float(x[4]) / num * 100)}
                 rate.update(tmp)
+                tmp = {5: x5}
+                info.update(tmp)
             if question.content_6 != "":
                 tmp = {question.content_6: 0 if (num == 0) else int(float(x[5]) / num * 100)}
                 rate.update(tmp)
+                tmp = {6: x6}
+                info.update(tmp)
             if question.content_7 != "":
                 tmp = {question.content_7: 0 if (num == 0) else int(float(x[6]) / num * 100)}
                 rate.update(tmp)
+                tmp = {7: x7}
+                info.update(tmp)
             if question.content_8 != "":
                 tmp = {question.content_8: 0 if (num == 0) else int(float(x[7]) / num * 100)}
                 rate.update(tmp)
+                tmp = {8: x8}
+                info.update(tmp)
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
@@ -694,12 +751,25 @@ def apply_statistic(request):
                 'type': type,
                 'all': num,
                 'all_rate': 0 if (num == 0) else int(float(num) / results_num * 100),
-                'rate': rate
+                'rate': rate,
+                'info': info
             }
             que.append(tmp_que)
         if type == "multi":
             question = Multi.objects.get(multi_id=que_id)
             rate = {}
+            info = {}
+            x1 = []
+            x2 = []
+            x3 = []
+            x4 = []
+            x5 = []
+            x6 = []
+            x7 = []
+            x8 = []
+            dict = {
+                "1": x1,"2": x2,"3": x3,"4": x4,"5": x5,"6": x6,"7": x7,"8": x8
+            }
             x = [0, 0, 0, 0, 0, 0, 0, 0]
             for res_build in res_builds:
                 result_id = res_build.que_id
@@ -707,51 +777,75 @@ def apply_statistic(request):
                 for i in range(8):
                     if result.ans1 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans2 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans3 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans4 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans5 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans6 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans7 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
                 for i in range(8):
                     if result.ans8 == i:
                         x[i] += 1
+                        dict[str(i+1)].append(get_info(res_build.result_id))
             if question.content_1 != "":
                 tmp = {question.content_1: 0 if (num == 0) else int(float(x[0]) / num * 100)}
                 rate.update(tmp)
+                tmp = {1: x1}
+                info.update(tmp)
             if question.content_2 != "":
                 tmp = {question.content_2: 0 if (num == 0) else int(float(x[1]) / num * 100)}
                 rate.update(tmp)
+                tmp = {2: x2}
+                info.update(tmp)
             if question.content_3 != "":
                 tmp = {question.content_3: 0 if (num == 0) else int(float(x[2]) / num * 100)}
                 rate.update(tmp)
+                tmp = {3: x3}
+                info.update(tmp)
             if question.content_4 != "":
                 tmp = {question.content_4: 0 if (num == 0) else int(float(x[3]) / num * 100)}
                 rate.update(tmp)
+                tmp = {4: x4}
+                info.update(tmp)
             if question.content_5 != "":
                 tmp = {question.content_5: 0 if (num == 0) else int(float(x[4]) / num * 100)}
                 rate.update(tmp)
+                tmp = {5: x5}
+                info.update(tmp)
             if question.content_6 != "":
                 tmp = {question.content_6: 0 if (num == 0) else int(float(x[5]) / num * 100)}
                 rate.update(tmp)
+                tmp = {6: x6}
+                info.update(tmp)
             if question.content_7 != "":
                 tmp = {question.content_7: 0 if (num == 0) else int(float(x[6]) / num * 100)}
                 rate.update(tmp)
+                tmp = {7: x7}
+                info.update(tmp)
             if question.content_8 != "":
                 tmp = {question.content_8: 0 if (num == 0) else int(float(x[7]) / num * 100)}
                 rate.update(tmp)
+                tmp = {8: x8}
+                info.update(tmp)
             tmp_que = {
                 'no': build.que_no,
                 'title': question.title,
@@ -759,7 +853,9 @@ def apply_statistic(request):
                 'type': type,
                 'all': num,
                 'all_rate': 0 if (num == 0) else int(float(num) / results_num * 100),
-                'rate': rate
+                'rate': rate,
+                'info': info,
+
             }
             que.append(tmp_que)
         if type == "rate":
@@ -801,7 +897,8 @@ def apply_statistic(request):
     ret_data = {
         "name": list.list_name,
         "id": list.list_id,
-        "que": que
+        "que": que,
+        "pack": pack
     }
     return JsonResponse(ret_data)
 
