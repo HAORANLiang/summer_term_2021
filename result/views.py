@@ -172,8 +172,8 @@ def save_result(request):
                 result_build.que_id = rate_ans.rate_id
                 result_build.save()
     ret_data = {
-        'message': "submit success",
-        'result_id': result.result_id
+        "message": "submit success",
+        "result_id": result.result_id
     }
     return JsonResponse(ret_data, safe=False)
 
@@ -226,13 +226,13 @@ def statistic(request):
                 tmp = {question.content_8: 0 if (num==0) else int(float(x[7])/num*100)}
                 rate.update(tmp)
             tmp_que = {
-                'no': build.que_no,
-                'title': question.title,
-                'description': question.description,
-                'type': type,
-                'all': num,
-                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
-                'rate': rate
+                "no": build.que_no,
+                "title": question.title,
+                "description": question.description,
+                "type": type,
+                "all": num,
+                "all_rate": 0 if (num==0) else int(float(num)/results_num*100),
+                "rate": rate
             }
             que.append(tmp_que)
         if type == "multi":
@@ -291,13 +291,13 @@ def statistic(request):
                 tmp = {question.content_8: 0 if (num == 0) else int(float(x[7]) / num * 100)}
                 rate.update(tmp)
             tmp_que = {
-                'no': build.que_no,
-                'title': question.title,
-                'description': question.description,
-                'type': type,
-                'all': num,
-                'all_rate': 0 if (num == 0) else int(float(num) / results_num * 100),
-                'rate': rate
+                "no": build.que_no,
+                "title": question.title,
+                "description": question.description,
+                "type": type,
+                "all": num,
+                "all_rate": 0 if (num == 0) else int(float(num) / results_num * 100),
+                "rate": rate
             }
             que.append(tmp_que)
         if type == "rate":
@@ -314,25 +314,25 @@ def statistic(request):
                 tmp = {str(i+1): 0 if (num==0) else int(float(x[i+1])/num*100)}
                 rate.update(tmp)
             tmp_que = {
-                'no': build.que_no,
-                'title': question.title,
-                'description': question.description,
-                'type': type,
-                'all': num,
-                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
-                'rate': rate
+                "no": build.que_no,
+                "title": question.title,
+                "description": question.description,
+                "type": type,
+                "all": num,
+                "all_rate": 0 if (num==0) else int(float(num)/results_num*100),
+                "rate": rate
             }
             que.append(tmp_que)
         if type == "pack":
             question = Pack.objects.get(pack_id=que_id)
     
             tmp_que = {
-                'no': build.que_no,
-                'title': question.title,
-                'description': question.description,
-                'type': type,
-                'all': num,
-                'all_rate': 0 if (num==0) else int(float(num)/results_num*100),
+                "no": build.que_no,
+                "title": question.title,
+                "description": question.description,
+                "type": type,
+                "all": num,
+                "all_rate": 0 if (num==0) else int(float(num)/results_num*100),
     
             }
             que.append(tmp_que)
