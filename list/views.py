@@ -26,6 +26,7 @@ def add_list(request):
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")
     new_list.displayNumber = data.get("displayNumber")
+    new_list.show_result = False
     new_list.list_num = 0
     body = data.get("body")
     new_list.que_num = len(body)
