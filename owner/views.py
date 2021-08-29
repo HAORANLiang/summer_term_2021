@@ -33,6 +33,16 @@ def get_list(request):
             Q(owner_id=owner_id)
         )
         list_menu = list_menu.exclude(state="已删除")
+    fliType = int(request.GET.get("fliType"))
+    case = {
+        2: "normal",
+        3: "covid",
+        4: "vote",
+        5: "exam",
+        6: "apply"
+    }
+    if fliType != 1:
+        list_menu = list_menu.filter(list_type=case.get(fliType))
     if sortType == 1:
         list_menu = list_menu.filter(state="已发布").order_by('-publish_time')
     elif sortType == 2:
