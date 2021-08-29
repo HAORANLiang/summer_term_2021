@@ -25,6 +25,7 @@ def add_list(request):
     new_list.list_name = data.get("list_name")
     new_list.owner_id = data.get("owner_id")
     new_list.summary = data.get("summary")
+    new_list.displayNumber = data.get("displayNumber")
     new_list.list_num = 0
     body = data.get("body")
     new_list.que_num = len(body)
@@ -661,6 +662,7 @@ def quest(request):
         "owner_id": list.owner_id,
         "summary": list.summary,
         "deadline": deadline,
+        "displayNumber": list.displayNumber,
         "body": body
     }
     return JsonResponse(ret_data)

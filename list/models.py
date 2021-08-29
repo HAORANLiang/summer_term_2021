@@ -20,6 +20,7 @@ class List(models.Model):
     list_num = models.IntegerField()
     code = models.CharField(max_length=64)
     show_result = models.BooleanField(null=True)
+    displayNumber = models.IntegerField()
 
 
 class Que_build(models.Model):
