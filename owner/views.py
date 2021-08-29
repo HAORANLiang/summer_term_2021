@@ -168,6 +168,7 @@ def copy_list(request):
     new_list.list_num = 0
     new_list.only_once = list_source.only_once
     new_list.need_login = list_source.only_once
+    new_list.displayNumber = list_source.displayNumber
     new_list.save()
     que_build_list = Que_build.objects.filter(list_id=list_id)
     for que_build_each in que_build_list:
