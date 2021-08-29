@@ -663,6 +663,7 @@ def quest(request):
         "summary": list.summary,
         "deadline": deadline,
         "displayNumber": list.displayNumber,
+        "showResult": list.show_result,
         "body": body
     }
     return JsonResponse(ret_data)
