@@ -733,7 +733,7 @@ def set_publish_info(request):
         list_changed.only_once = False
     list_changed.start_time = datetime.datetime.now()
     str_deadline = request.GET.get("deadline")
-    if str_deadline != "\"\"" or len(str_deadline) != 0:
+    if str_deadline != "\"\"" and len(str_deadline) != 0:
         deadline = datetime.datetime.strptime(str_deadline, '"%Y-%m-%dT%H:%M:%S"')
         list_changed.end_time = deadline
     else:
