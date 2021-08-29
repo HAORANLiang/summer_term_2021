@@ -12,5 +12,6 @@ urlpatterns = [
     path('verify_code', views.verify_code),
     path('new_code', views.new_code),
     path('code_quest', views.code_quest),
+    path('new_quest', views.new_quest),
     path('get_code', views.get_code),
 ]

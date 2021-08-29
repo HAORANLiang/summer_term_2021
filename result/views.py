@@ -439,9 +439,9 @@ def to_excel(request):
                         6: que.content_7,
                         7: que.content_8,
                     }
-                    for i in range(8):
-                        if str(contents[i]) != "None":
-                            content += option[contents[i]] + " "
+                    for k in range(8):
+                        if str(contents[k]) != "None":
+                            content += option[contents[k]] + " "
                 if res_build.que_type == "pack":
                     question = Pack_ans.objects.get(pack_id=res_build.que_id)
                     contents = [
@@ -451,9 +451,9 @@ def to_excel(request):
                         question.ans4,
                         question.ans5,
                     ]
-                    for i in range(5):
-                        if str(contents[i]) != "None":
-                            content += str(contents[i]) + " "
+                    for k in range(5):
+                        if str(contents[k]) != "None":
+                            content += str(contents[k]) + " "
                 if res_build.que_type == "rate":
                     question = Rate_ans.objects.get(rate_id=res_build.que_id)
                     content += str(question.ans)

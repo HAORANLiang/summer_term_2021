@@ -858,3 +858,40 @@ def code_quest(request):
     if data:
         request.GET = data
     return quest(request)
+
+
+def new_quest(request):
+    code = request.GET.get("code")
+    list = List.objects.filter(code=code)
+    if not list.exists():
+        ret_data = {
+            "isPublished": 0,
+            "needLogin": 0,
+            "available": 0
+        }
+        return JsonResponse(ret_data)
+    list = List.objects.get(code=code)
+    if list.state != "已发布":
+        ret_data = {
+            "isPublished": 0,
+            "needLogin": 0,
+            "available": 1
+        }
+        return JsonResponse(ret_data)
+    user_id = request.headers.get("Authorization")
+    if list.need_login is True:
+        if user_id == '0':
+            ret_data = {
+                "isPublished": 1,
+                "needLogin": 1,
+                "available": 1
+            }
+            return JsonResponse(ret_data)
+
+    data = request.GET.copy()
+    # 修改参数值
+    tmp = {"id": list.list_id}
+    data.update(tmp)
+    if data:
+        request.GET = data
+    return quest(request)
