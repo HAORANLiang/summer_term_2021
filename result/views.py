@@ -485,7 +485,7 @@ def check_ans(request):
             question = Single.objects.get(single_id=build.que_id)
             if question.score is not None:
                 x=question.score
-        if build.que_type == "nulti":
+        if build.que_type == "multi":
             question = Multi.objects.get(multi_id=build.que_id)
             if question.score is not None:
                 x = question.score
