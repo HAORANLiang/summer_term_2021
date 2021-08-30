@@ -189,7 +189,8 @@ def copy_switch(que_type, que_id):
         "single": copy_single,
         "multi": copy_multi,
         "pack": copy_pack,
-        "rate": copy_rate
+        "rate": copy_rate,
+        "positionp": copy_pack
     }
     return case.get(que_type)(que_id)
 
